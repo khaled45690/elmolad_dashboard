@@ -7,12 +7,41 @@ class AddMainProductScreenState {
   AddMainProductScreenState(this.state, this.context);
 
   onSubmitFunc() {
-    loadingAlert();
-    Navigator.of(context).popAndPushNamed(AddSubProductsScreen.routeName);
+    if(check()){
+      loadingAlert();
+      print(this.state.data);
+      Navigator.of(context).popAndPushNamed(AddSubProductsScreen.routeName);
+    }
   }
+
+  onChange(value, variableName) {
+    print(value);
+    print(variableName);
+    this.state.setState(() {
+      this.state.data[variableName] = value;
+      this.state.dataError[variableName] = null;
+    });
+  }
+
+  check() {
+    bool check = true;
+    this.state.data.forEach((key, value) {
+      if (value == null) {
+        print('$key   $value');
+        this.state.setState(() {
+          this.state.dataError[key] = "this field is required";
+        });
+        check = false;
+      }
+    });
+
+    return check;
+  }
+
 
   loadingAlert() {
     return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         Size size = MediaQuery.of(context).size;

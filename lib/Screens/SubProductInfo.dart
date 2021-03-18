@@ -1,3 +1,5 @@
+import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
+import 'package:elmolad_dashboard/Screens/EditSubProductScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +51,28 @@ class _SubProductInfoState extends State<SubProductInfo> {
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Image',
-                          style: TextStyle(
-                              fontSize: headerFontSize,
-                              fontWeight: FontWeight.bold))),
+                    label: Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('brand',
+                              style: TextStyle(
+                                  fontSize: headerFontSize,
+                                  fontWeight: FontWeight.bold)),
+                          InkWell(
+                            hoverColor: Colors.black.withOpacity(0.4),
+                            child: Container(
+                                width: 40,
+                                height: 50,
+                                child: Icon(Icons.add_circle_rounded)),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(AddSubProductsScreen.routeName);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),),
                 ],
                 rows: [
                   DataRow(
@@ -88,7 +108,7 @@ class _SubProductInfoState extends State<SubProductInfo> {
                                 )),
                             InkWell(
                               onTap: () {
-                                print("hi");
+                               Navigator.of(context).pushNamed(EditSubProductScreen.routeName);
                               },
                               hoverColor: Colors.black.withOpacity(0.4),
                               child: Container(
@@ -99,7 +119,7 @@ class _SubProductInfoState extends State<SubProductInfo> {
                             ),
                           ],
                         )),
-                      ]),
+                      ],),
                 ],
               ),
             ),

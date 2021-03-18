@@ -61,7 +61,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 borderRadius: BorderRadius.only(topRight: Radius.circular(17)),
                 color: Colors.blue,
               ),
-              height: 100,
+              height: 50,
             ),
             DrawerControllersWidget("Product", () {
               onChange("Product");
@@ -107,7 +107,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             DrawerTabsWidget("users", UsersListScreen.routeName),
             Container(
-              height: 100,
+              height: 70,
               color: Colors.white,
             ),
           ],

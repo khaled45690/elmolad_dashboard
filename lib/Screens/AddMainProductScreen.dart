@@ -13,6 +13,21 @@ class AddMainProductScreen extends StatefulWidget {
 }
 
 class _AddMainProductScreenState extends State<AddMainProductScreen> {
+  Map data = {
+    "Name" : null,
+    "Price" : null,
+    "Description":null,
+    "Type":1,
+    "Category" : "",
+    "Brand":"",
+  };
+  Map dataError = {
+    "Name" : null,
+    "Price" : null,
+    "Description":null,
+    "Category" : "",
+    "Brand":"",
+  };
   @override
   Widget build(BuildContext context) {
     AddMainProductScreenState ampss =
@@ -35,11 +50,11 @@ class _AddMainProductScreenState extends State<AddMainProductScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AddMainProductTopPart(),
+            AddMainProductTopPart(data["Type"] , ampss.onChange),
             SizedBox(
               height: 30,
             ),
-            AddMainProductMiddlePart(),
+            AddMainProductMiddlePart(dataError , ampss.onChange),
             SizedBox(
               height: 30,
             ),

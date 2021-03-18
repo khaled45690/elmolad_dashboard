@@ -19,7 +19,7 @@ class _AddSubProductScreenState extends State<AddSubProductScreen> {
           width: 400,
           decoration: BoxDecoration(
             border: Border.all(
-              width: 1, //                   <--- border width here
+              width: 1,
             ),
           ),
           child: Column(

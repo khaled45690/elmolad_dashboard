@@ -3,6 +3,10 @@ import 'package:elmolad_dashboard/Widgets/DropDownWidget.dart';
 import 'package:flutter/material.dart';
 
 class AddMainProductMiddlePart extends StatelessWidget {
+  final Map dataError;
+  final Function onChange;
+
+  const AddMainProductMiddlePart(this.dataError, this.onChange);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,7 +28,9 @@ class AddMainProductMiddlePart extends StatelessWidget {
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("Name", null, (value) {})),
+                  child: CustomTextField("Name", dataError["Name"], (value) {
+                    onChange(value, "Name");
+                  })),
             ],
           ),
           Row(
@@ -33,31 +39,35 @@ class AddMainProductMiddlePart extends StatelessWidget {
                 width: 110,
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
-                  "price",
+                  "Price",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("price", null, (value) {})),
+                  child: CustomTextField("Price", dataError["Price"], (value) {
+                    onChange(value, "Price");
+                  })),
             ],
           ),
           Row(
             children: [
               Container(
-                width: 110,
+                width: 112,
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
-                  "description",
+                  "Description",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
               Container(
                   width: screenSize - 200,
                   child: CustomTextField(
-                    "description",
-                    null,
-                    (value) {},
+                    "Description",
+                    dataError["Description"],
+                    (value) {
+                      onChange(value, "Description");
+                    },
                     maxLines: 4,
                   )),
             ],
@@ -85,7 +95,7 @@ class AddMainProductMiddlePart extends StatelessWidget {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
-              DropdownWidget("value", ["value", "values"], 150, 30, (value) {})
+              DropdownWidget("value", ["value", "values"], 150, 30, (value) {}),
             ],
           ),
         ],

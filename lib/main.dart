@@ -4,6 +4,7 @@ import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
 import 'package:elmolad_dashboard/Screens/EditMainProductScreen.dart';
+import 'package:elmolad_dashboard/Screens/EditSubProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/RoomListScreen.dart';
 import 'package:elmolad_dashboard/Screens/MainProductInfo.dart';
 import 'package:elmolad_dashboard/Screens/SubProductInfo.dart';
@@ -52,6 +53,7 @@ class ElmoladDashboard extends StatelessWidget {
           MainProductInfo.routeName: (ctx) => MainProductInfo(),
           SubProductInfo.routeName: (ctx) => SubProductInfo(),
           EditMainProductScreen.routeName: (ctx) => EditMainProductScreen(),
+          EditSubProductScreen.routeName: (ctx) => EditSubProductScreen(),
         },
       ),
     );

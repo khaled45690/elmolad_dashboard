@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonDesign extends StatelessWidget {
-  final String text;
+  final String text , changeColor;
   final Function func;
 
-  const ButtonDesign(this.text, this.func);
+  const ButtonDesign(this.text, this.func , {this.changeColor});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -14,7 +14,8 @@ class ButtonDesign extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: func,
         splashColor: Colors.blue,
-        child: Container(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds:300),
           width: screenSize / 3.5,
           height: size.height / 10,
           decoration: BoxDecoration(
@@ -27,7 +28,7 @@ class ButtonDesign extends StatelessWidget {
               ),
             ],
             borderRadius: BorderRadius.circular(10),
-            color: Colors.lightBlueAccent.shade400.withOpacity(0.4),
+            color: changeColor == null ? Colors.lightBlueAccent.shade400.withOpacity(0.4) : Colors.blue.shade700 ,
           ),
           child: Center(
             child: Text(

@@ -78,7 +78,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                         ),
                       ],
                     ),
-                  )),
+                  ),),
                 ],
                 rows: [
                   DataRow(
