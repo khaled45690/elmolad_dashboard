@@ -4,7 +4,7 @@ import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
 class AddSubProductsScreen extends StatefulWidget {
-  static const routeName = "/AddSubProductsScreen";
+  static const routeName = "/AddSubProducts";
   @override
   _AddSubProductsScreenState createState() => _AddSubProductsScreenState();
 }

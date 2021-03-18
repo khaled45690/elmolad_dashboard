@@ -1,4 +1,3 @@
-import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
@@ -40,32 +39,23 @@ class _SubProductInfoState extends State<SubProductInfo> {
                 columnSpacing: 30,
                 columns: [
                   DataColumn(
-                      label: Text('Name',
+                      label: Text('Color',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('price',
+                      label: Text('Size',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('category',
-                          style: TextStyle(
-                              fontSize: headerFontSize,
-                              fontWeight: FontWeight.bold))),
-                  DataColumn(
-                      label: Text('brand',
+                      label: Text('Image',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                 ],
                 rows: [
                   DataRow(
-                      onSelectChanged: (value) {
-                        Navigator.of(context)
-                            .pushNamed(SubProductInfo.routeName);
-                      },
                       cells: [
                         DataCell(Row(
                           children: [
@@ -79,24 +69,20 @@ class _SubProductInfoState extends State<SubProductInfo> {
                                 print("hi");
                               },
                             ),
-                            Text('Stephen',
+                            Text('Red',
                                 style: TextStyle(
                                   fontSize: rowFontSize,
                                 )),
                           ],
                         )),
-                        DataCell(Text('Actor',
-                            style: TextStyle(
-                              fontSize: rowFontSize,
-                            ))),
-                        DataCell(Text('Actor',
+                        DataCell(Text('XL',
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
                         DataCell(Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Actor',
+                            Text('image',
                                 style: TextStyle(
                                   fontSize: rowFontSize,
                                 )),

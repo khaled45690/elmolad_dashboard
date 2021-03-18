@@ -1,4 +1,5 @@
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
+import 'package:elmolad_dashboard/Screens/EditMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/SubProductInfo.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
@@ -121,7 +122,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                                 )),
                             InkWell(
                               onTap: () {
-                                print("hi");
+                                Navigator.of(context).pushNamed(EditMainProductScreen.routeName);
                               },
                               hoverColor: Colors.black.withOpacity(0.4),
                               child: Container(
