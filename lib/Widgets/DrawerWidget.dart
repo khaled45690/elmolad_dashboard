@@ -1,9 +1,13 @@
 import 'package:elmolad_dashboard/Screens/AddRoomScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
+import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
+import 'package:elmolad_dashboard/Screens/ColorPickerScreen.dart';
 import 'package:elmolad_dashboard/Screens/RoomListScreen.dart';
 import 'package:elmolad_dashboard/Screens/MainProductInfo.dart';
 import 'package:elmolad_dashboard/Screens/OrdersScreen.dart';
+import 'package:elmolad_dashboard/Screens/ShowColorsScreen.dart';
+import 'package:elmolad_dashboard/Screens/ShowSizesScreen.dart';
 import 'package:elmolad_dashboard/Screens/StoresListScreen.dart';
 import 'package:elmolad_dashboard/Screens/UserListScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerControllersWidget.dart';
@@ -20,11 +24,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     "Product": 0,
     "Room": 0,
     "Stores": 0,
+    "Colors": 0,
+    "Sizes": 0,
   };
   Map size = {
     "Product": 210,
     "Room": 140,
     "Stores": 140,
+    "Colors": 140,
+    "Sizes": 140,
   };
   onChange(variableName) {
     setState(() {
@@ -48,7 +56,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
+            topRight: Radius.circular(30)),
         color: Colors.white,
       ),
       width: 250,
@@ -66,17 +74,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             DrawerControllersWidget("Product", () {
               onChange("Product");
             }),
-            AnimatedContainer(
-              height: data["Product"],
-              duration: Duration(milliseconds: 300),
-              child: Column(
-                children: [
-                  DrawerTabsWidget(
-                      "Add product", AddMainProductScreen.routeName),
-                  DrawerTabsWidget(
-                      "Products", MainProductInfo.routeName),
-                  DrawerTabsWidget("orders", OrdersScreen.routeName),
-                ],
+            ClipRect(
+              child: AnimatedContainer(
+                height: data["Product"],
+                duration: Duration(milliseconds: 300),
+                child: Column(
+                  children: [
+                    DrawerTabsWidget(
+                        "Add product", AddMainProductScreen.routeName),
+                    DrawerTabsWidget(
+                        "Products", MainProductInfo.routeName),
+                    DrawerTabsWidget("orders", OrdersScreen.routeName),
+                  ],
+                ),
               ),
             ),
             DrawerControllersWidget("Room", () {
@@ -102,6 +112,32 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 children: [
                   DrawerTabsWidget("Add store", AddStoreScreen.routeName),
                   DrawerTabsWidget("stores", StoresListScreen.routeName),
+                ],
+              ),
+            ),
+            DrawerControllersWidget("Colors", () {
+              onChange("Colors");
+            }),
+            AnimatedContainer(
+              height: data["Colors"],
+              duration: Duration(milliseconds: 300),
+              child: Column(
+                children: [
+                  DrawerTabsWidget("Add color", ColorPickerScreen.routeName),
+                  DrawerTabsWidget("Show colors", ShowColorsScreen.routeName),
+                ],
+              ),
+            ),
+            DrawerControllersWidget("Sizes", () {
+              onChange("Sizes");
+            }),
+            AnimatedContainer(
+              height: data["Sizes"],
+              duration: Duration(milliseconds: 300),
+              child: Column(
+                children: [
+                  DrawerTabsWidget("Add size", AddSizeScreen.routeName),
+                  DrawerTabsWidget("Show sizes", ShowSizesScreen.routeName),
                 ],
               ),
             ),

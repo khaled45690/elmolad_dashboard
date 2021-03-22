@@ -31,7 +31,7 @@ class _AddMainProductScreenState extends State<AddMainProductScreen> {
   @override
   Widget build(BuildContext context) {
     AddMainProductScreenState ampss =
-        new AddMainProductScreenState(this, context);
+        new AddMainProductScreenState(this);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

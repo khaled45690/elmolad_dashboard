@@ -19,9 +19,7 @@ class CustomTextField extends StatelessWidget {
           keyboardType:
               textInputType == null ? TextInputType.text : textInputType,
           obscureText: obscureText == null ? false : obscureText,
-          onChanged: (value) {
-            onChangeFunction(value);
-          },
+          onChanged: onChangeFunction,
           decoration: InputDecoration(
             labelText: text,
             errorText: errorText,

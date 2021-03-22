@@ -5,12 +5,20 @@ import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
 class AddRoomScreen extends StatefulWidget {
-  static const routeName = "/AddBrandScreen";
+  static const routeName = "/AddRoom";
   @override
   _AddRoomScreenState createState() => _AddRoomScreenState();
 }
 
 class _AddRoomScreenState extends State<AddRoomScreen> {
+  Map data = {
+    "Name" : null,
+    "image" : null,
+  };
+  Map dataError = {
+    "Name" : null,
+    "image" : null,
+  };
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -51,7 +59,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                       ),
                       Container(
                           width: 300,
-                          child: CustomTextField("Name", null, (value) {})),
+                          child: CustomTextField("Name", dataError["Name"], (value) {})),
                     ],
                   ),
                   SizedBox(

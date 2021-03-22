@@ -2,15 +2,16 @@ import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
 import 'package:flutter/material.dart';
 
 class AddMainProductScreenState {
-  final state, context;
+  final state;
 
-  AddMainProductScreenState(this.state, this.context);
+  AddMainProductScreenState(this.state);
 
   onSubmitFunc() {
-    if(check()){
+    if (check()) {
       loadingAlert();
       print(this.state.data);
-      Navigator.of(context).popAndPushNamed(AddSubProductsScreen.routeName);
+      Navigator.of(this.state.context)
+          .popAndPushNamed(AddSubProductsScreen.routeName);
     }
   }
 
@@ -22,6 +23,7 @@ class AddMainProductScreenState {
       this.state.dataError[variableName] = null;
     });
   }
+
 
   check() {
     bool check = true;
@@ -38,11 +40,10 @@ class AddMainProductScreenState {
     return check;
   }
 
-
   loadingAlert() {
     return showDialog(
       barrierDismissible: false,
-      context: context,
+      context: this.state.context,
       builder: (BuildContext context) {
         Size size = MediaQuery.of(context).size;
         return Stack(
