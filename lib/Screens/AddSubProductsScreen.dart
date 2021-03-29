@@ -30,6 +30,8 @@ class _AddSubProductsScreenState extends State<AddSubProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(ModalRoute.of(context)!.settings.arguments);
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -53,7 +55,7 @@ class _AddSubProductsScreenState extends State<AddSubProductsScreen> {
                   SizedBox(
                     height: 25,
                   ),
-                  AddSubProductScreen(),
+                  AddSubProductScreen(ModalRoute.of(context)!.settings.arguments.toString()),
                 ],
               ),
             SizedBox(

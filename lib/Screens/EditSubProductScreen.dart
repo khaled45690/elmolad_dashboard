@@ -1,4 +1,3 @@
-import 'package:elmolad_dashboard/Widgets/AddSubProductTopPart.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class _EditSubProductScreenState extends State<EditSubProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AddSubProductTopPart(),
+                // AddSubProductTopPart(),
                 SizedBox(
                   height: 30,
                 ),

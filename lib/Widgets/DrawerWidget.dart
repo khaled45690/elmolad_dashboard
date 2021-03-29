@@ -1,11 +1,14 @@
-import 'package:elmolad_dashboard/Screens/AddRoomScreen.dart';
+import 'package:elmolad_dashboard/Screens/AddManufacturScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
 import 'package:elmolad_dashboard/Screens/ColorPickerScreen.dart';
-import 'package:elmolad_dashboard/Screens/RoomListScreen.dart';
+import 'package:elmolad_dashboard/Screens/NotificationScreen.dart';
+import 'package:elmolad_dashboard/Screens/ReviewsScreen.dart';
+import 'package:elmolad_dashboard/Screens/ManufacturerListScreen.dart';
 import 'package:elmolad_dashboard/Screens/MainProductInfo.dart';
 import 'package:elmolad_dashboard/Screens/OrdersScreen.dart';
+import 'package:elmolad_dashboard/Screens/SendNotificationsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ShowColorsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ShowSizesScreen.dart';
 import 'package:elmolad_dashboard/Screens/StoresListScreen.dart';
@@ -20,19 +23,21 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  Map data = {
+  Map<String , double> data = {
     "Product": 0,
-    "Room": 0,
-    "Stores": 0,
+    "Manufacturer": 0,
+    "Brand": 0,
     "Colors": 0,
     "Sizes": 0,
+    "Others": 0,
   };
-  Map size = {
+  Map<String , double> size = {
     "Product": 210,
-    "Room": 140,
-    "Stores": 140,
+    "Manufacturer": 140,
+    "Brand": 140,
     "Colors": 140,
     "Sizes": 140,
+    "Others": 280,
   };
   onChange(variableName) {
     setState(() {
@@ -41,7 +46,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       } else {
         data.forEach((key, value) {
           if (variableName == key) {
-            data[variableName] = size[variableName];
+            data[variableName] = size[variableName]!;
           } else {
             data[key] = 0;
           }
@@ -89,29 +94,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
               ),
             ),
-            DrawerControllersWidget("Room", () {
-              onChange("Room");
+            DrawerControllersWidget("Manufacturer", () {
+              onChange("Manufacturer");
             }),
             AnimatedContainer(
-              height: data["Room"],
+              height: data["Manufacturer"],
               duration: Duration(milliseconds: 300),
               child: Column(
                 children: [
-                  DrawerTabsWidget("Add Room", AddRoomScreen.routeName),
-                  DrawerTabsWidget("Rooms", RoomListScreen.routeName),
+                  DrawerTabsWidget("Add Manufacturer", AddManufacturScreen.routeName),
+                  DrawerTabsWidget("Manufacturers", ManufacturListScreen.routeName),
                 ],
               ),
             ),
-            DrawerControllersWidget("Stores", () {
-              onChange("Stores");
+            DrawerControllersWidget("Brand", () {
+              onChange("Brand");
             }),
             AnimatedContainer(
-              height: data["Stores"],
+              height: data["Brand"],
               duration: Duration(milliseconds: 300),
               child: Column(
                 children: [
-                  DrawerTabsWidget("Add store", AddStoreScreen.routeName),
-                  DrawerTabsWidget("stores", StoresListScreen.routeName),
+                  DrawerTabsWidget("Add brand", AddStoreScreen.routeName),
+                  DrawerTabsWidget("Brand", StoresListScreen.routeName),
                 ],
               ),
             ),
@@ -141,9 +146,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
-            DrawerTabsWidget("users", UsersListScreen.routeName),
+
+            DrawerControllersWidget("Others", () {
+              onChange("Others");
+            }),
+            AnimatedContainer(
+              height: data["Others"],
+              duration: Duration(milliseconds: 300),
+              child: Column(
+                children: [
+                  DrawerTabsWidget("users", UsersListScreen.routeName),
+                  DrawerTabsWidget("Reviews", ReviewsScreen.routeName),
+                  DrawerTabsWidget("Notifications", NotificationScreen.routeName),
+                  DrawerTabsWidget("SendNotification", SendNotificationScreen.routeName),
+                ],
+              ),
+            ),
             Container(
-              height: 70,
+              height: 280,
               color: Colors.white,
             ),
           ],

@@ -99,7 +99,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                 ],
               ),
             ),
-            PaginationWidget(),
+            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

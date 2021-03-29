@@ -22,6 +22,7 @@ class DropdownWidget extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+
           isExpanded: true,
           iconSize: iconSize,
           iconEnabledColor: Colors.black,
@@ -33,18 +34,20 @@ class DropdownWidget extends StatelessWidget {
           onChanged: (value) {
             onChange(value);
           },
-          items: values.map((user) {
-            return DropdownMenuItem<String>(
-              value: user,
-              child: Container(
-                child: Text(
-                  user,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black),
+
+          items: [
+            for(int i = 0 ; i < values.length ; i++)
+              DropdownMenuItem<String>(
+                value: values[i],
+                child: Container(
+                  child: Text(
+                    values[i],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
-            );
-          }).toList(),
+          ]
         ),
       ),
     );

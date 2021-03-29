@@ -8,7 +8,7 @@ class DrawerControllersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: func,
+      onPressed: func as void Function()?,
       color: Colors.white,
       focusColor: Colors.lightBlueAccent,
       hoverColor: Colors.lightBlueAccent.withOpacity(0.6),

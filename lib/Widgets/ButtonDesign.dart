@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ButtonDesign extends StatelessWidget {
-  final String text , changeColor;
+  final String? text , changeColor;
   final Function func;
 
   const ButtonDesign(this.text, this.func , {this.changeColor});
@@ -12,7 +12,7 @@ class ButtonDesign extends StatelessWidget {
     return Center(
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: func,
+        onTap: func as void Function()?,
         splashColor: Colors.blue,
         child: AnimatedContainer(
           duration: Duration(milliseconds:300),
@@ -32,7 +32,7 @@ class ButtonDesign extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              text,
+              text!,
               style: TextStyle(
                   fontSize: screenSize / 25, fontWeight: FontWeight.w500),
             ),

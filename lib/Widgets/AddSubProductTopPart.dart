@@ -1,7 +1,12 @@
-import 'package:elmolad_dashboard/Widgets/DropDownWidget.dart';
+import 'package:elmolad_dashboard/Widgets/ExpandedDropDown.dart';
 import 'package:flutter/material.dart';
 
 class AddSubProductTopPart extends StatelessWidget {
+  final String colorValue , sizeValue;
+  final List<String> colorList, sizeList;
+  final Function colorChange , sizeChange , colorFilter , sizeFilter;
+
+  const AddSubProductTopPart(this.colorValue, this.sizeValue , this.colorList , this.sizeList , this.colorChange , this.sizeChange , this.colorFilter , this.sizeFilter);
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -11,6 +16,7 @@ class AddSubProductTopPart extends StatelessWidget {
             height: 20,
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 110,
@@ -20,13 +26,14 @@ class AddSubProductTopPart extends StatelessWidget {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
-              DropdownWidget("value", ["value", "values"], 150, 30, (value) {})
+              ExpandedDropDown(colorValue, colorList, colorChange ,colorFilter),
             ],
           ),
           SizedBox(
             height: 20,
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 110,
@@ -36,7 +43,7 @@ class AddSubProductTopPart extends StatelessWidget {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
-              DropdownWidget("value", ["value", "values"], 150, 30, (value) {})
+              ExpandedDropDown(sizeValue, sizeList , sizeChange ,sizeFilter),
             ],
           ),
         ],

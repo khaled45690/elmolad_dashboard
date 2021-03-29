@@ -1,14 +1,17 @@
-import 'package:elmolad_dashboard/ProviderModels/ScreenSize.dart';
-import 'package:elmolad_dashboard/Screens/AddRoomScreen.dart';
+import 'package:elmolad_dashboard/ProviderModels/CategoryAndBrandImportantInfo.dart';
+import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
+import 'package:elmolad_dashboard/Screens/AddManufacturScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ColorPickerScreen.dart';
-import 'package:elmolad_dashboard/Screens/EditMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/EditSubProductScreen.dart';
-import 'package:elmolad_dashboard/Screens/RoomListScreen.dart';
+import 'package:elmolad_dashboard/Screens/NotificationScreen.dart';
+import 'package:elmolad_dashboard/Screens/ReviewsScreen.dart';
+import 'package:elmolad_dashboard/Screens/ManufacturerListScreen.dart';
 import 'package:elmolad_dashboard/Screens/MainProductInfo.dart';
+import 'package:elmolad_dashboard/Screens/SendNotificationsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ShowColorsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ShowSizesScreen.dart';
 import 'package:elmolad_dashboard/Screens/SignInScreen.dart';
@@ -26,7 +29,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ScreenSize()),
+        ChangeNotifierProvider(create: (_) => CategoryAndBrandImportantInfo()),
+        ChangeNotifierProvider(create: (_) => ColorAndSizeImportantInfo()),
       ],
       child: ElmoladDashboard(),
     ),
@@ -37,33 +41,36 @@ class ElmoladDashboard extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Elmoolad Dashboard',
         home: MainScreen(),
         routes: {
           MainScreen.routeName: (ctx) => MainScreen(),
           AddMainProductScreen.routeName: (ctx) => AddMainProductScreen(),
           AddSubProductsScreen.routeName: (ctx) => AddSubProductsScreen(),
-          AddRoomScreen.routeName: (ctx) => AddRoomScreen(),
+          AddManufacturScreen.routeName: (ctx) => AddManufacturScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
           OrderDetailsScreen.routeName: (ctx) => OrderDetailsScreen(),
           AddStoreScreen.routeName: (ctx) => AddStoreScreen(),
-          RoomListScreen.routeName: (ctx) => RoomListScreen(),
+          ManufacturListScreen.routeName: (ctx) => ManufacturListScreen(),
           StoresListScreen.routeName: (ctx) => StoresListScreen(),
           UsersListScreen.routeName: (ctx) => UsersListScreen(),
           UserDetailsScreen.routeName: (ctx) => UserDetailsScreen(),
           MainProductInfo.routeName: (ctx) => MainProductInfo(),
           SubProductInfo.routeName: (ctx) => SubProductInfo(),
-          EditMainProductScreen.routeName: (ctx) => EditMainProductScreen(),
           EditSubProductScreen.routeName: (ctx) => EditSubProductScreen(),
           SignInScreen.routeName: (ctx) => SignInScreen(),
           ColorPickerScreen.routeName: (ctx) => ColorPickerScreen(),
           AddSizeScreen.routeName: (ctx) => AddSizeScreen(),
           ShowSizesScreen.routeName: (ctx) => ShowSizesScreen(),
           ShowColorsScreen.routeName: (ctx) => ShowColorsScreen(),
+          ReviewsScreen.routeName: (ctx) => ReviewsScreen(),
+          NotificationScreen.routeName: (ctx) => NotificationScreen(),
+          SendNotificationScreen.routeName: (ctx) => SendNotificationScreen(),
         },
       ),
     );

@@ -123,7 +123,7 @@ class _SubProductInfoState extends State<SubProductInfo> {
                 ],
               ),
             ),
-            PaginationWidget(),
+            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

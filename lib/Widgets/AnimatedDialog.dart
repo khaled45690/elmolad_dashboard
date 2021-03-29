@@ -7,8 +7,8 @@ class AnimatedDialog extends StatefulWidget {
 
 class _AnimatedDialogState extends State<AnimatedDialog>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {

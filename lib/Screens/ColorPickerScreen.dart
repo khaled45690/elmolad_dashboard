@@ -1,4 +1,5 @@
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
+import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -14,6 +15,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
   Map data = {};
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     print(pickerColor.toString().substring(10, 16));
     return Scaffold(
       appBar: AppBar(
@@ -31,8 +33,14 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
       drawer: DrawerWidget(),
       body: Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+                width: size.width - 200,
+                child: CustomTextField("Color Name", null, (value) {
+                  // onChange(value, "Name");
+                })),
+            SizedBox(height: 80,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -41,6 +49,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 Text(pickerColor.toString().substring(10, 16)),
               ],
             ),
+            SizedBox(height: 80,),
             ButtonDesign("Add", pickColor),
           ],
         ),

@@ -4,13 +4,13 @@ import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
-class AddRoomScreen extends StatefulWidget {
+class AddManufacturScreen extends StatefulWidget {
   static const routeName = "/AddRoom";
   @override
-  _AddRoomScreenState createState() => _AddRoomScreenState();
+  _AddManufacturScreenState createState() => _AddManufacturScreenState();
 }
 
-class _AddRoomScreenState extends State<AddRoomScreen> {
+class _AddManufacturScreenState extends State<AddManufacturScreen> {
   Map data = {
     "Name" : null,
     "image" : null,

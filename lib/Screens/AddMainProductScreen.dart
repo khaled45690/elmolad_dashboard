@@ -1,9 +1,12 @@
+import 'package:elmolad_dashboard/ProviderModels/CategoryAndBrandImportantInfo.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/AddMainProductScreenState.dart';
+import 'package:elmolad_dashboard/Widgets/AddMainProductDropDownPart.dart';
 import 'package:elmolad_dashboard/Widgets/AddMainProductMiddlePart.dart';
 import 'package:elmolad_dashboard/Widgets/AddMainProductTopPart.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddMainProductScreen extends StatefulWidget {
   static const routeName = "/AddMainProductDetailsScreen";
@@ -13,25 +16,35 @@ class AddMainProductScreen extends StatefulWidget {
 }
 
 class _AddMainProductScreenState extends State<AddMainProductScreen> {
+  List<String> brandFilter = [];
+  String brandValue = "" , categoryValue = "Top";
   Map data = {
-    "Name" : null,
-    "Price" : null,
-    "Description":null,
-    "Type":1,
-    "Category" : "",
-    "Brand":"",
+    "minProductName" : null,
+    "productPrice" : null,
+    "minProductDetails":null,
+    "Gender":1,
+    "categoryId" : "",
+    "brandsId":"",
   };
   Map dataError = {
-    "Name" : null,
-    "Price" : null,
-    "Description":null,
-    "Category" : "",
-    "Brand":"",
+    "minProductName" : null,
+    "productPrice" : null,
+    "minProductDetails":null,
   };
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
+    setState(() {
+      brandFilter = importantInfo.brandName;
+      brandValue = brandFilter[0];
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    AddMainProductScreenState ampss =
-        new AddMainProductScreenState(this);
+    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
+    AddMainProductScreenState ampss = AddMainProductScreenState(this);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -50,11 +63,12 @@ class _AddMainProductScreenState extends State<AddMainProductScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AddMainProductTopPart(data["Type"] , ampss.onChange),
+            AddMainProductTopPart(data["Gender"] , ampss.onChange),
             SizedBox(
               height: 30,
             ),
             AddMainProductMiddlePart(dataError , ampss.onChange),
+            AddMainProductDropDownPart(brandFilter , brandValue  , categoryValue , importantInfo.categoryNameList , ampss.dropDownTextChange , ampss.searchFunction , ampss.categoryListChange),
             SizedBox(
               height: 30,
             ),

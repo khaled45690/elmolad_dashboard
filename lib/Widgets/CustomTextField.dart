@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final Function onChangeFunction;
-  final String text, errorText;
-  final bool obscureText;
-  final TextInputType textInputType;
-  final int maxLines;
+  final String? text, errorText;
+  final bool? obscureText;
+  final TextInputType? textInputType;
+  final int? maxLines;
   const CustomTextField(this.text, this.errorText, this.onChangeFunction,
       {this.obscureText, this.textInputType, this.maxLines});
   @override
@@ -18,8 +18,8 @@ class CustomTextField extends StatelessWidget {
           maxLines: maxLines == null ? 1 : maxLines,
           keyboardType:
               textInputType == null ? TextInputType.text : textInputType,
-          obscureText: obscureText == null ? false : obscureText,
-          onChanged: onChangeFunction,
+          obscureText: obscureText == null ? false : obscureText!,
+          onChanged: onChangeFunction as void Function(String)?,
           decoration: InputDecoration(
             labelText: text,
             errorText: errorText,

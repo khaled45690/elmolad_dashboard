@@ -109,7 +109,7 @@ class _StoresListScreenState extends State<StoresListScreen> {
                 ],
               ),
             ),
-            PaginationWidget(),
+            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

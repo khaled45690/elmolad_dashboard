@@ -1,29 +1,88 @@
+
+import 'dart:convert';
+
+import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/CategoryAndBrandImportantInfo.dart';
 import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class AddMainProductScreenState {
   final state;
 
   AddMainProductScreenState(this.state);
 
-  onSubmitFunc() {
+  onSubmitFunc() async{
     if (check()) {
-      loadingAlert();
-      print(this.state.data);
+      // loadingAlert();
+      // CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(this.state.context , listen: false);
+      // importantInfo.brandList.forEach((element) {
+      //   if(this.state.brandValue == element["brandName"]){
+      //     this.state.data["brandsId"] = element["Id"];
+      //   }
+      // });
+      //
+      // importantInfo.categoryMap.forEach((key, value) {
+      //   if(key == this.state.data["Gender"].toString()){
+      //     value.forEach((element) {
+      //       print(this.state.categoryValue == element["categoryName"]);
+      //       if(this.state.categoryValue == element["categoryName"]){
+      //         this.state.data["categoryId"] = element["id"];
+      //       }
+      //     });
+      //   }
+      //
+      // });
+      // var response = await http.post(
+      //   Uri.parse('$serverURL/api/Product/AddMinProduct'),
+      //   headers: <String, String>{
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: jsonEncode(this.state.data)
+      // );
+      //
+      // print(response.statusCode);
+      // print(response.body);
       Navigator.of(this.state.context)
-          .popAndPushNamed(AddSubProductsScreen.routeName);
+          .popAndPushNamed(AddSubProductsScreen.routeName , arguments: "64");
     }
   }
 
   onChange(value, variableName) {
-    print(value);
-    print(variableName);
     this.state.setState(() {
       this.state.data[variableName] = value;
       this.state.dataError[variableName] = null;
     });
   }
+  dropDownTextChange(value){
+    this.state.setState(() {
+      this.state.brandValue = value;
+    });
+  }
+  categoryListChange(value){
+    this.state.setState(() {
+      this.state.categoryValue = value;
+    });
+  }
+  searchFunction(value) {
+    List<String> filter = [];
+    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(this.state.context , listen: false);
+    importantInfo.brandName.forEach((element) {
+      if(element.length < value.length){
 
+      }else{
+        if(element.substring(0 , value.length).toLowerCase() == value.toLowerCase()){
+          filter.add(element);
+        }
+      }
+    });
+
+    this.state.setState(() {
+      this.state.brandFilter = filter;
+      // this.state.value = filter[0];
+    });
+  }
 
   check() {
     bool check = true;

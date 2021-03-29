@@ -1,14 +1,41 @@
+import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/AddSubProductScreenState.dart';
 import 'package:elmolad_dashboard/Widgets/AddSubProductTopPart.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddSubProductScreen extends StatefulWidget {
+
+ final String minProductId;
+  AddSubProductScreen(this.minProductId);
+
   @override
   _AddSubProductScreenState createState() => _AddSubProductScreenState();
 }
 
 class _AddSubProductScreenState extends State<AddSubProductScreen> {
+  List<String> colorListFilter = [], sizeListFilter = [];
+  Map data = {
+    "colorValue": "",
+    "sizeValue": "",
+    "imagesList" : [],
+  };
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ColorAndSizeImportantInfo importantInfo2 =
+        Provider.of<ColorAndSizeImportantInfo>(context, listen: false);
+    setState(() {
+      data["colorValue"] = importantInfo2.colorName[0];
+      data["sizeValue"] = importantInfo2.sizeName[0];
+      colorListFilter = importantInfo2.colorName;
+      sizeListFilter = importantInfo2.sizeName;
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     AddSubProductScreenState aspss = new AddSubProductScreenState(this);
@@ -26,7 +53,8 @@ class _AddSubProductScreenState extends State<AddSubProductScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(""),
-              AddSubProductTopPart(),
+              AddSubProductTopPart(data["colorValue"], data["sizeValue"],
+                  colorListFilter, sizeListFilter, aspss.colorChange, aspss.sizeChange ,aspss.colorSearchFunction , aspss.sizeSearchFunction),
               SizedBox(
                 height: 30,
               ),
@@ -37,7 +65,7 @@ class _AddSubProductScreenState extends State<AddSubProductScreen> {
               SizedBox(
                 height: 30,
               ),
-              ButtonDesign("Submit", () {}),
+              ButtonDesign("Submit", aspss.onSubmit),
               SizedBox(
                 height: 30,
               ),

@@ -1,11 +1,9 @@
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
-import 'package:elmolad_dashboard/Widgets/DropDownWidget.dart';
 import 'package:flutter/material.dart';
 
 class AddMainProductMiddlePart extends StatelessWidget {
   final Map dataError;
-  final Function onChange;
-
+  final Function onChange ;
   const AddMainProductMiddlePart(this.dataError, this.onChange);
   @override
   Widget build(BuildContext context) {
@@ -22,14 +20,14 @@ class AddMainProductMiddlePart extends StatelessWidget {
                 width: 110,
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
-                  "Name",
+                  "Product Name",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("Name", dataError["Name"], (value) {
-                    onChange(value, "Name");
+                  child: CustomTextField("Product Name", dataError["minProductName"], (value) {
+                    onChange(value, "minProductName");
                   })),
             ],
           ),
@@ -45,8 +43,8 @@ class AddMainProductMiddlePart extends StatelessWidget {
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("Price", dataError["Price"], (value) {
-                    onChange(value, "Price");
+                  child: CustomTextField("Price", dataError["productPrice"], (value) {
+                    onChange(value, "productPrice");
                   })),
             ],
           ),
@@ -64,40 +62,15 @@ class AddMainProductMiddlePart extends StatelessWidget {
                   width: screenSize - 200,
                   child: CustomTextField(
                     "Description",
-                    dataError["Description"],
+                    dataError["minProductDetails"],
                     (value) {
-                      onChange(value, "Description");
+                      onChange(value, "minProductDetails");
                     },
                     maxLines: 4,
                   )),
             ],
           ),
-          Row(
-            children: [
-              Container(
-                width: 110,
-                margin: EdgeInsets.only(right: 30),
-                child: Text(
-                  "Category",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                ),
-              ),
-              DropdownWidget("value", ["value", "values"], 150, 30, (value) {})
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                width: 110,
-                margin: EdgeInsets.only(right: 30),
-                child: Text(
-                  "brand",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                ),
-              ),
-              DropdownWidget("value", ["value", "values"], 150, 30, (value) {}),
-            ],
-          ),
+          // val
         ],
       ),
     );

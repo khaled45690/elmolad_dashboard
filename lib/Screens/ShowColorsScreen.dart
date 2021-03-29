@@ -101,7 +101,7 @@ class _ShowColorsScreenState extends State<ShowColorsScreen> {
                 ],
               ),
             ),
-            PaginationWidget(),
+            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

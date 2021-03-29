@@ -101,7 +101,7 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
                 ],
               ),
             ),
-            PaginationWidget(),
+            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),
