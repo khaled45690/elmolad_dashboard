@@ -12,20 +12,20 @@ class AddStoreScreen extends StatefulWidget {
 
 class _AddStoreScreenState extends State<AddStoreScreen> {
   Map data = {
-    "UserName" : null,
-    "StoreName" : null,
-    "Address" : null,
+    "storeName" : null,
+    "phoneNumber" : null,
     "Email" : null,
-    "Password" : null,
-    "ConfirmPassword" : null,
+    "password" : null,
+    "imgName" : null,
+    "confirmPassword" : null,
   };
   Map dataError = {
-    "UserName" : null,
-    "StoreName" : null,
-    "Address" : null,
+    "storeName" : null,
+    "phoneNumber" : null,
     "Email" : null,
-    "Password" : null,
-    "ConfirmPassword" : null,
+    "password" : null,
+    "imgName" : null,
+    "confirmPassword" : null,
   };
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Add Store" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -65,23 +66,26 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
               children: [
                 Container(
                     width: 300,
-                    child: CustomTextField("User name", dataError["UserName"], (value) { asss.onChange(value, "UserName"); })),
+                    child: CustomTextField("Store name", dataError["storeName"], (value) { asss.onChange(value, "storeName"); })),
                 Container(
                     width: 300,
-                    child: CustomTextField("Store name", dataError["StoreName"], (value) { asss.onChange(value, "StoreName"); })),
-                Container(
-                    width: 300,
-                    child: CustomTextField("Address", dataError["Address"], (value) { asss.onChange(value, "Address"); })),
+                    child: CustomTextField("phoneNumber", dataError["phoneNumber"], (value) { asss.onChange(value, "phoneNumber"); })),
                 Container(
                     width: 300,
                     child: CustomTextField("Email", dataError["Email"], (value) { asss.onChange(value, "Email"); })),
                 Container(
                     width: 300,
-                    child: CustomTextField("Password", dataError["Password"], (value) { asss.onChange(value, "Password"); } , obscureText: true,)),
+                    child: CustomTextField("Password", dataError["password"], (value) { asss.onChange(value, "password"); } , obscureText: true,)),
                 Container(
                     width: 300,
                     child:
-                        CustomTextField("Confirm password", dataError["ConfirmPassword"], (value) { asss.onChange(value, "ConfirmPassword");} , obscureText: true)),
+                        CustomTextField("Confirm password", dataError["confirmPassword"], (value) { asss.onChange(value, "confirmPassword");} , obscureText: true)),
+                SizedBox(
+                  height: 40,
+                ),
+                ButtonDesign("Select images", asss.loadAssets),
+
+                dataError["imgName"] == null ? Container() : Text("please add an image to continue" , style: TextStyle(color: Colors.red),),
                 SizedBox(
                   height: 40,
                 ),

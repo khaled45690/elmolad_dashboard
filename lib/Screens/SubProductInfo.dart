@@ -21,6 +21,7 @@ class _SubProductInfoState extends State<SubProductInfo> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("sub products" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {

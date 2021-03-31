@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 class AddSubProductsScreen extends StatefulWidget {
   static const routeName = "/AddSubProducts";
+  final String minProductId;
+  AddSubProductsScreen(this.minProductId);
   @override
   _AddSubProductsScreenState createState() => _AddSubProductsScreenState();
 }
@@ -37,6 +39,7 @@ class _AddSubProductsScreenState extends State<AddSubProductsScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Add sub product" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -55,7 +58,7 @@ class _AddSubProductsScreenState extends State<AddSubProductsScreen> {
                   SizedBox(
                     height: 25,
                   ),
-                  AddSubProductScreen(ModalRoute.of(context)!.settings.arguments.toString()),
+                  AddSubProductScreen(widget.minProductId),
                 ],
               ),
             SizedBox(

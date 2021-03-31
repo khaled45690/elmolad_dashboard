@@ -17,15 +17,36 @@ class EditMainProductScreen extends StatefulWidget {
 }
 
 class _EditMainProductScreenState extends State<EditMainProductScreen> {
-Map data ={};
+  List<String> brandFilter = [];
+  String brandValue = "" , categoryValue = "Top";
+  Map data = {
+    "minProductName" : null,
+    "productPrice" : null,
+    "minProductDetails":null,
+    "Gender":1,
+    "categoryId" : "",
+    "brandsId":"",
+  };
+  Map dataError = {
+    "minProductName" : null,
+    "productPrice" : null,
+    "minProductDetails":null,
+  };
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
     data = widget.data;
+    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
+    setState(() {
+      brandFilter = importantInfo.brandName;
+      brandValue = brandFilter[0];
+      categoryValue = data["categorieId"];
+    });
   }
   @override
   Widget build(BuildContext context) {
+  print(widget.data);
     EditMainProductScreenState empss = new EditMainProductScreenState(this);
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context);
     return Scaffold(
@@ -33,6 +54,7 @@ Map data ={};
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Edit Main products" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -47,7 +69,7 @@ Map data ={};
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             EditMainProductTopPart(widget.data , empss.onChange),
-            EditMainProductMiddlePart(data ,importantInfo.brandName , empss.listChange),
+            EditMainProductMiddlePart(brandFilter , brandValue  , categoryValue , importantInfo.categoryNameList , empss.dropDownTextChange , empss.searchFunction , empss.categoryListChange),
             SizedBox(height: 40,),
             ButtonDesign("Save", () {}),
           ],

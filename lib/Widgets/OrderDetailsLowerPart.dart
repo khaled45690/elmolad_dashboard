@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class OrderDetailsLowerPart extends StatelessWidget {
+  final List orderProductList;
+
+  const OrderDetailsLowerPart(this.orderProductList);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,66 +34,25 @@ class OrderDetailsLowerPart extends StatelessWidget {
                       fontSize: headerFontSize, fontWeight: FontWeight.bold))),
         ],
         rows: [
+          for(int i = 0; i < orderProductList.length ; i++)
           DataRow(cells: [
             DataCell(Text(
-              '1',
+              orderProductList[i]["minProductName"],
               style: TextStyle(fontSize: rowFontSize),
             )),
             DataCell(Text(
-              'Stephen',
+              orderProductList[i]["quantity"].toString(),
               style: TextStyle(fontSize: rowFontSize),
             )),
             DataCell(Text(
-              'Actor',
+              orderProductList[i]["orderProductPrice"].toString(),
               style: TextStyle(fontSize: rowFontSize),
             )),
             DataCell(Text(
-              'Actor',
+              orderProductList[i]["total"].toString(),
               style: TextStyle(fontSize: rowFontSize),
             )),
           ]),
-          DataRow(cells: [
-            DataCell(Text('1')),
-            DataCell(Text('Stephen')),
-            DataCell(Text('Actor')),
-            DataCell(Text('Actor')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('1')),
-            DataCell(Text('Stephen')),
-            DataCell(Text('Actor')),
-            DataCell(Text('Actor')),
-          ]),
-          DataRow(
-              onSelectChanged: (value) {
-                print(value);
-              },
-              cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Stephen')),
-                DataCell(Text('Actor')),
-                DataCell(Text('Actor')),
-              ]),
-          DataRow(
-              onSelectChanged: (value) {
-                print(value);
-              },
-              cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Stephen')),
-                DataCell(Text('Actor')),
-                DataCell(Text('Actor')),
-              ]),
-          DataRow(
-              onSelectChanged: (value) {
-                print(value);
-              },
-              cells: [
-                DataCell(Text('1')),
-                DataCell(Text('Stephen')),
-                DataCell(Text('Actor')),
-                DataCell(Text('Actor')),
-              ]),
         ],
       ),
     );

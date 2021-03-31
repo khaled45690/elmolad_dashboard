@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class StoresListScreen extends StatefulWidget {
   static const String routeName = "/StoresListScreen";
@@ -10,6 +14,34 @@ class StoresListScreen extends StatefulWidget {
 }
 
 class _StoresListScreenState extends State<StoresListScreen> {
+  List data = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get();
+  }
+
+  get()async{
+    var response = await http.get(
+      Uri.parse('$serverURL/api/Store/list'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    print('response.body');
+    print(response.statusCode);
+    List x = jsonDecode(response.body);
+    setState(() {
+      data = jsonDecode(response.body);
+    });
+    print(x);
+    x.forEach((element) {
+      print(element);
+    });
+    print('response.body');
+
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,6 +52,7 @@ class _StoresListScreenState extends State<StoresListScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Stores" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -40,17 +73,17 @@ class _StoresListScreenState extends State<StoresListScreen> {
                 columnSpacing: 30,
                 columns: [
                   DataColumn(
-                      label: Text('User Name',
+                      label: Text('id',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Store',
+                      label: Text('Store Name',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Email',
+                      label: Text('Number of Product',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
@@ -59,7 +92,7 @@ class _StoresListScreenState extends State<StoresListScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Address',
+                        Text('image',
                             style: TextStyle(
                                 fontSize: headerFontSize,
                                 fontWeight: FontWeight.bold)),
@@ -75,6 +108,7 @@ class _StoresListScreenState extends State<StoresListScreen> {
                   )),
                 ],
                 rows: [
+                  for(int i = 0 ; i < data.length ; i++)
                   DataRow(cells: [
                     DataCell(Row(
                       children: [
@@ -84,32 +118,26 @@ class _StoresListScreenState extends State<StoresListScreen> {
                             print("hi");
                           },
                         ),
-                        Text('Stephen',
+                        Text(data[i]["id"].toString(),
                             style: TextStyle(
                               fontSize: rowFontSize,
                             )),
                       ],
                     )),
-                    DataCell(Text('Actor',
+                    DataCell(Text(data[i]["storeName"],
                         style: TextStyle(
                           fontSize: rowFontSize,
                         ))),
-                    DataCell(Text('Actor',
+                    DataCell(Text(data[i]["numOfProdduct"].toString(),
                         style: TextStyle(
                           fontSize: rowFontSize,
                         ))),
-                    DataCell(Text(
-                      'Actsdfsdu fhwehufwkj fhwkej fhwjkfhw jkfhwej khfwjkhfor',
-                      style: TextStyle(
-                        fontSize: rowFontSize,
-                      ),
-                      maxLines: 3,
-                    )),
+                    DataCell(Image.network("$serverURL/img/products/${data[i]["img"]}" , height: 50, width: 50,)),
                   ]),
+
                 ],
               ),
             ),
-            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

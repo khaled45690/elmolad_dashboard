@@ -1,7 +1,8 @@
+import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
-import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShowSizesScreen extends StatefulWidget {
   static const String routeName = "/ShowSizes";
@@ -16,11 +17,14 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
     Size size = MediaQuery.of(context).size;
     double headerFontSize = size.width > 600 ? 20 : 11;
     double rowFontSize = size.width > 600 ? 20 : 12;
+    ColorAndSizeImportantInfo importantInfo =
+    Provider.of<ColorAndSizeImportantInfo>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("sizes" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -70,6 +74,7 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
                     ),),
                 ],
                 rows: [
+                  for(int i = 0; i < importantInfo.sizeList.length; i++)
                   DataRow(
                       cells: [
                         DataCell(
@@ -87,13 +92,13 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
                                 print("hi");
                               },
                             ),
-                            Text('1',
+                            Text(importantInfo.sizeList[i]["id"].toString(),
                                 style: TextStyle(
                                   fontSize: rowFontSize,
                                 )),
                           ],
                         )),
-                        DataCell(Text('Xl',
+                        DataCell(Text(importantInfo.sizeList[i]["name"],
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
@@ -101,7 +106,6 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
                 ],
               ),
             ),
-            PaginationWidget("" , "" , (){}),
           ],
         ),
       ),

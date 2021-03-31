@@ -18,6 +18,7 @@ class _SignInScreenState extends State<SignInScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("sign in" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {

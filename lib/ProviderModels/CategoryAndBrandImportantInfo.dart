@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   // start brand important data
   // start brand important data
   // start brand important data
@@ -47,6 +49,7 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
   // end category important data
   // end category important data
   getInfo() async {
+    final SharedPreferences prefs = await _prefs;
     List<String> arr = [];
     var response = await http.get(
       Uri.parse('$serverURL/api/Brands/list'),
@@ -54,12 +57,12 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
         'Content-Type': 'application/json',
       },
     );
-    print(response.body);
     brandList = jsonDecode(response.body);
     _brandList.forEach((element) {
       arr.add(element["brandName"]);
     });
     brandName = arr;
+    prefs.setString("brandName", jsonEncode(arr));
     Map responseBody = {};
     var response2 = await http.get(
       Uri.parse('$serverURL/api/Product/ListCategoryId?MainCategoryId=1'),
@@ -77,8 +80,12 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
     );
     responseBody["2"] = jsonDecode(response3.body);
     categoryMap = responseBody;
-    print(_categoryMap);
 
+  }
+
+  getInfoFromLocal()async{
+    final SharedPreferences prefs = await _prefs;
+     brandName = jsonDecode(prefs.getString("brandName")!).cast<String>();
   }
 
 }

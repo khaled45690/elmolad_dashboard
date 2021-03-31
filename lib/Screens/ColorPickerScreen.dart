@@ -1,8 +1,11 @@
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
+import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:http/http.dart' as http;
 
 class ColorPickerScreen extends StatefulWidget {
   static const String routeName = "/ColorPicker";
@@ -12,16 +15,30 @@ class ColorPickerScreen extends StatefulWidget {
 
 class _ColorPickerScreenState extends State<ColorPickerScreen> {
   Color pickerColor = Colors.redAccent.shade100;
-  Map data = {};
+  Map data = {
+    "colorCode" : "${Colors.redAccent.shade100.toString().substring(10, 16)}",
+    "colorName" : null,
+  };
+
+  Map dataError = {
+    "colorName" : null,
+  };
+  onChange(value){
+    setState(() {
+      data["colorName"] = value;
+      dataError["colorName"] = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(pickerColor.toString().substring(10, 16));
+    print(data["colorCode"]);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Add Color" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -37,9 +54,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
           children: [
             Container(
                 width: size.width - 200,
-                child: CustomTextField("Color Name", null, (value) {
-                  // onChange(value, "Name");
-                })),
+                child: CustomTextField("Color Name", dataError["colorName"], onChange)),
             SizedBox(height: 80,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -50,13 +65,42 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
               ],
             ),
             SizedBox(height: 80,),
-            ButtonDesign("Add", pickColor),
+            ButtonDesign("Add", submit),
           ],
         ),
       ),
     );
   }
-
+  submit()async{
+      if(data["colorName"] == null || data["sizeName"] == ""){
+        setState(() {
+          dataError["colorName"] = "this field is required";
+        });
+      }else{
+        if(data["colorName"].contains(" ")){
+          setState(() {
+            dataError["colorName"] = "make sure there is no space in the name";
+          });
+        }else{
+           loadingAlert(context);
+          print(Uri.parse("$serverURL/api/Color/Add?colorName=${data["colorName"]}&colorCode=${data["colorCode"]}"));
+          var response = await http.get(
+            Uri.parse("$serverURL/api/Color/Add?colorName=${data["colorName"]}&colorCode=${data["colorCode"]}"),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+          );
+          Navigator.of(context).pop();
+          if(response.statusCode < 300){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("the color has been added successfully") ,backgroundColor: Colors.green,));
+          }else{
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("something went wrong"),backgroundColor: Colors.red,));
+          }
+          print(response.statusCode);
+          print(response.body);
+        }
+      }
+  }
   pickColor() {
     return showDialog(
       barrierDismissible: false,
@@ -75,7 +119,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
             MaterialButton(
               child: const Text('Got it'),
               onPressed: () {
-                setState(() => data["ColorPicked"] = pickerColor.toString().substring(10, 16));
+                setState(() => data["colorCode"] = "${pickerColor.toString().substring(10, 16)}");
                 print(pickerColor);
                 Navigator.of(context).pop();
               },

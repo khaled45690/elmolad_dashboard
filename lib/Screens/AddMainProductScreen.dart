@@ -1,4 +1,5 @@
 import 'package:elmolad_dashboard/ProviderModels/CategoryAndBrandImportantInfo.dart';
+import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/AddMainProductScreenState.dart';
 import 'package:elmolad_dashboard/Widgets/AddMainProductDropDownPart.dart';
 import 'package:elmolad_dashboard/Widgets/AddMainProductMiddlePart.dart';
@@ -36,20 +37,24 @@ class _AddMainProductScreenState extends State<AddMainProductScreen> {
     // TODO: implement initState
     super.initState();
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
+    ColorAndSizeImportantInfo importantInfo2 = Provider.of<ColorAndSizeImportantInfo>(context , listen: false);
+    importantInfo2.getInfoFromLocal();
+    importantInfo.getInfoFromLocal();
     setState(() {
-      brandFilter = importantInfo.brandName;
-      brandValue = brandFilter[0];
+        brandFilter = importantInfo.brandName;
+        brandValue = brandFilter[0];
     });
   }
   @override
   Widget build(BuildContext context) {
-    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
+    CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context);
     AddMainProductScreenState ampss = AddMainProductScreenState(this);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Add Main Product" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {

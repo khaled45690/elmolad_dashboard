@@ -1,6 +1,10 @@
+import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
+import 'package:elmolad_dashboard/StateDependentClasses/EditSubProductScreenState.dart';
+import 'package:elmolad_dashboard/Widgets/AddSubProductTopPart.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditSubProductScreen extends StatefulWidget {
   static const String routeName = "/EditSubProduct";
@@ -9,14 +13,39 @@ class EditSubProductScreen extends StatefulWidget {
 }
 
 class _EditSubProductScreenState extends State<EditSubProductScreen> {
+  List<String> colorListFilter = [], sizeListFilter = [];
+  Map data = {
+    "colorValue": "",
+    "sizeValue": "",
+    "imagesList": [],
+  };
+
+  bool isDone = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ColorAndSizeImportantInfo importantInfo2 =
+    Provider.of<ColorAndSizeImportantInfo>(context, listen: false);
+    setState(() {
+      data["colorValue"] = importantInfo2.colorName[0];
+      data["sizeValue"] = importantInfo2.sizeName[0];
+      colorListFilter = importantInfo2.colorName;
+      sizeListFilter = importantInfo2.sizeName;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    EditSubProductScreenState espss = new EditSubProductScreenState(this);
     // ☺️
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Edit Sub products" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -39,7 +68,14 @@ class _EditSubProductScreenState extends State<EditSubProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // AddSubProductTopPart(),
+                AddSubProductTopPart( data["colorValue"],
+                data["sizeValue"],
+                colorListFilter,
+                sizeListFilter,
+                espss.colorChange,
+                espss.sizeChange,
+                espss.colorSearchFunction,
+                espss.sizeSearchFunction),
                 SizedBox(
                   height: 30,
                 ),

@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddSubProductScreen extends StatefulWidget {
-
- final String minProductId;
+  final String minProductId;
   AddSubProductScreen(this.minProductId);
 
   @override
@@ -19,8 +18,9 @@ class _AddSubProductScreenState extends State<AddSubProductScreen> {
   Map data = {
     "colorValue": "",
     "sizeValue": "",
-    "imagesList" : [],
+    "imagesList": [],
   };
+  bool isDone = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -28,51 +28,76 @@ class _AddSubProductScreenState extends State<AddSubProductScreen> {
     ColorAndSizeImportantInfo importantInfo2 =
         Provider.of<ColorAndSizeImportantInfo>(context, listen: false);
     setState(() {
+      widget.minProductId == "null"
+          ? print(data["minProductId"])
+          : data["minProductId"] = widget.minProductId;
       data["colorValue"] = importantInfo2.colorName[0];
       data["sizeValue"] = importantInfo2.sizeName[0];
       colorListFilter = importantInfo2.colorName;
       sizeListFilter = importantInfo2.sizeName;
-
     });
   }
 
   @override
   Widget build(BuildContext context) {
     AddSubProductScreenState aspss = new AddSubProductScreenState(this);
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.all(30),
-          width: 400,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 1,
+    return isDone
+        ? Container(
+            padding: EdgeInsets.all(30),
+            width: 400,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(""),
-              AddSubProductTopPart(data["colorValue"], data["sizeValue"],
-                  colorListFilter, sizeListFilter, aspss.colorChange, aspss.sizeChange ,aspss.colorSearchFunction , aspss.sizeSearchFunction),
-              SizedBox(
-                height: 30,
+            child: Center(
+              child: Text(
+                "the data has been uploaded successfully",
+                style: TextStyle(color: Colors.green, fontSize: 22),
               ),
-              SizedBox(
-                height: 30,
+            ),
+          )
+        : SingleChildScrollView(
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.all(30),
+                width: 400,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(""),
+                    AddSubProductTopPart(
+                        data["colorValue"],
+                        data["sizeValue"],
+                        colorListFilter,
+                        sizeListFilter,
+                        aspss.colorChange,
+                        aspss.sizeChange,
+                        aspss.colorSearchFunction,
+                        aspss.sizeSearchFunction),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    ButtonDesign("Select images", aspss.loadAssets),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    ButtonDesign("Submit", aspss.onSubmit),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ),
               ),
-              ButtonDesign("Select images", aspss.loadAssets),
-              SizedBox(
-                height: 30,
-              ),
-              ButtonDesign("Submit", aspss.onSubmit),
-              SizedBox(
-                height: 30,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

@@ -43,6 +43,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Reviews" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {

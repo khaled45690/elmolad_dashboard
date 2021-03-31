@@ -1,11 +1,13 @@
 import 'package:elmolad_dashboard/Widgets/DropDownWidget.dart';
 import 'package:flutter/material.dart';
 
+import 'ExpandedDropDown.dart';
+
 class EditMainProductMiddlePart extends StatelessWidget {
-  final Map data;
-  final List<String> brandName;
-  final Function listChange;
-  const EditMainProductMiddlePart( this.data ,this.brandName , this.listChange);
+  final List<String> brandNames , categoryNames;
+  final Function searchFunction , dropDownTextChange , categoryChangeFunction;
+  final String brandValue , categoryValue;
+  const EditMainProductMiddlePart(this.brandNames , this.brandValue, this.categoryValue, this.categoryNames ,this.dropDownTextChange ,this.searchFunction , this.categoryChangeFunction);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,10 +29,11 @@ class EditMainProductMiddlePart extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
                 ),
-                DropdownWidget(brandName[0], brandName, 150, 30, (value) {listChange(value , "dad");})
+                DropdownWidget(categoryValue, categoryNames, 150, 30, categoryChangeFunction)
               ],
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: 110,
@@ -40,7 +43,7 @@ class EditMainProductMiddlePart extends StatelessWidget {
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
                 ),
-                 // ExpandedDropDown(brandValue, brandName , (value){} ,(value){}),
+                ExpandedDropDown(brandValue, brandNames , dropDownTextChange ,searchFunction),
               ],
             ),
           ],

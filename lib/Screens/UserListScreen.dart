@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
+import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Screens/UserDetailScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class UsersListScreen extends StatefulWidget {
   static const String routeName = "/UsersListScreen";
@@ -10,6 +15,28 @@ class UsersListScreen extends StatefulWidget {
 }
 
 class _UsersListScreenState extends State<UsersListScreen> {
+  List data = [];
+  Map paging = {};
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get();
+  }
+  get()async{
+    var response = await http.get(
+      Uri.parse('$serverURL/api/Client/list?pageSize=1&pageNo=1'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    Map body = jsonDecode(response.body);
+    setState(() {
+       data = body["Data"];
+       paging = body["Paging"];
+    });
+    print(response.body);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,6 +47,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("users" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -45,7 +73,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Email',
+                      label: Text('count order',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
@@ -54,7 +82,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Address',
+                        Text('address',
                             style: TextStyle(
                                 fontSize: headerFontSize,
                                 fontWeight: FontWeight.bold)),
@@ -64,6 +92,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                   )),
                 ],
                 rows: [
+                  for(int i = 0; i < data.length ; i++)
                   DataRow(
                       onSelectChanged: (value) {
                         Navigator.of(context)
@@ -78,31 +107,46 @@ class _UsersListScreenState extends State<UsersListScreen> {
                                 print("hi");
                               },
                             ),
-                            Text('Stephen',
+                            Text(data[i]["userName"],
                                 style: TextStyle(
                                   fontSize: rowFontSize,
                                 )),
                           ],
                         )),
-                        DataCell(Text('Actor',
+                        DataCell(Text(data[i]["countOrder"].toString(),
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
                         DataCell(Text(
-                          'Actsdfsdu fhwehufwkj fhwkej fhwjkfhw jkfhwej khfwjkhfor',
+                          data[i]["address"].toString(),
                           style: TextStyle(
                             fontSize: rowFontSize,
                           ),
-                          maxLines: 3,
                         )),
                       ]),
                 ],
               ),
             ),
-            PaginationWidget("" , "" , (){}),
+            PaginationWidget(paging["previous"] , paging["next"] , onClick),
           ],
         ),
       ),
     );
+  }
+  onClick(url) async {
+    loadingAlert(context);
+    var response = await http.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    Navigator.of(context).pop();
+    Map body = jsonDecode(response.body);
+    setState(() {
+      data = body["Data"];
+      paging = body["Paging"];
+    });
+
   }
 }

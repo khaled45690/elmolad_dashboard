@@ -15,7 +15,7 @@ class PaginationWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ButtonDesign("previous", () => onClick(previous)),
+        previous == null ? Container() : ButtonDesign("previous", () => onClick(previous)),
         SizedBox(
           width: 25,
         ),

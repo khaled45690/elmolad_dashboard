@@ -4,7 +4,6 @@ import 'package:elmolad_dashboard/Screens/AddManufacturScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
-import 'package:elmolad_dashboard/Screens/AddSubProductsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ColorPickerScreen.dart';
 import 'package:elmolad_dashboard/Screens/EditSubProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/NotificationScreen.dart';
@@ -16,7 +15,6 @@ import 'package:elmolad_dashboard/Screens/ShowColorsScreen.dart';
 import 'package:elmolad_dashboard/Screens/ShowSizesScreen.dart';
 import 'package:elmolad_dashboard/Screens/SignInScreen.dart';
 import 'package:elmolad_dashboard/Screens/SubProductInfo.dart';
-import 'package:elmolad_dashboard/Screens/OrderDetailsScreen.dart';
 import 'package:elmolad_dashboard/Screens/OrdersScreen.dart';
 import 'package:elmolad_dashboard/Screens/MainScreen.dart';
 import 'package:elmolad_dashboard/Screens/StoresListScreen.dart';
@@ -51,10 +49,10 @@ class ElmoladDashboard extends StatelessWidget {
         routes: {
           MainScreen.routeName: (ctx) => MainScreen(),
           AddMainProductScreen.routeName: (ctx) => AddMainProductScreen(),
-          AddSubProductsScreen.routeName: (ctx) => AddSubProductsScreen(),
+          // AddSubProductsScreen.routeName: (ctx) => AddSubProductsScreen(),
           AddManufacturScreen.routeName: (ctx) => AddManufacturScreen(),
           OrdersScreen.routeName: (ctx) => OrdersScreen(),
-          OrderDetailsScreen.routeName: (ctx) => OrderDetailsScreen(),
+          // OrderDetailsScreen.routeName: (ctx) => OrderDetailsScreen(),
           AddStoreScreen.routeName: (ctx) => AddStoreScreen(),
           ManufacturListScreen.routeName: (ctx) => ManufacturListScreen(),
           StoresListScreen.routeName: (ctx) => StoresListScreen(),

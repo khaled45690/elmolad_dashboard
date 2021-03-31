@@ -15,37 +15,39 @@ class AddMainProductScreenState {
 
   onSubmitFunc() async{
     if (check()) {
-      // loadingAlert();
-      // CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(this.state.context , listen: false);
-      // importantInfo.brandList.forEach((element) {
-      //   if(this.state.brandValue == element["brandName"]){
-      //     this.state.data["brandsId"] = element["Id"];
-      //   }
-      // });
-      //
-      // importantInfo.categoryMap.forEach((key, value) {
-      //   if(key == this.state.data["Gender"].toString()){
-      //     value.forEach((element) {
-      //       print(this.state.categoryValue == element["categoryName"]);
-      //       if(this.state.categoryValue == element["categoryName"]){
-      //         this.state.data["categoryId"] = element["id"];
-      //       }
-      //     });
-      //   }
-      //
-      // });
-      // var response = await http.post(
-      //   Uri.parse('$serverURL/api/Product/AddMinProduct'),
-      //   headers: <String, String>{
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: jsonEncode(this.state.data)
-      // );
-      //
-      // print(response.statusCode);
-      // print(response.body);
-      Navigator.of(this.state.context)
-          .popAndPushNamed(AddSubProductsScreen.routeName , arguments: "64");
+      loadingAlert();
+      CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(this.state.context , listen: false);
+      importantInfo.brandList.forEach((element) {
+        if(this.state.brandValue == element["brandName"]){
+          this.state.data["brandsId"] = element["Id"];
+        }
+      });
+
+      importantInfo.categoryMap.forEach((key, value) {
+        if(key == this.state.data["Gender"].toString()){
+          value.forEach((element) {
+            print(this.state.categoryValue == element["categoryName"]);
+            if(this.state.categoryValue == element["categoryName"]){
+              this.state.data["categoryId"] = element["id"];
+            }
+          });
+        }
+
+      });
+      var response = await http.post(
+        Uri.parse('$serverURL/api/Product/AddMinProduct'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(this.state.data)
+      );
+
+      print(response.statusCode);
+      print(response.body);
+      Navigator.of(this.state.context).pop();
+      Navigator.of(this.state.context).push(
+          MaterialPageRoute(builder: (context) =>
+              AddSubProductsScreen(response.body)));
     }
   }
 

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
+import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Screens/OrderDetailsScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = "/OrdersScreen";
@@ -10,6 +15,45 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+  Map paging = {};
+  List data = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get();
+  }
+  get()async{
+    var response = await http.get(
+        Uri.parse('$serverURL/api/OrderCpanel/List?pageNo=1&pageSize=5'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+    );
+    print(response.body);
+    Map body = jsonDecode(response.body);
+    setState(() {
+      data = body["Data"];
+      paging = body["Paging"];
+    });
+  }
+  onClick(url) async {
+    loadingAlert(context);
+    var response = await http.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    Navigator.of(context).pop();
+    print(response.body);
+    Map body = jsonDecode(response.body);
+    setState(() {
+      data = body["Data"];
+      paging = body["Paging"];
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,6 +64,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("Orders" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -40,17 +85,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 columnSpacing: 25,
                 columns: [
                   DataColumn(
-                      label: Text('Client',
+                      label: Text('order id',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Store ',
+                      label: Text('date',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
                   DataColumn(
-                      label: Text('Date',
+                      label: Text('User name',
                           style: TextStyle(
                               fontSize: headerFontSize,
                               fontWeight: FontWeight.bold))),
@@ -61,75 +106,36 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               fontWeight: FontWeight.bold))),
                 ],
                 rows: [
+                  for(int i = 0 ; i < data.length ; i++)
                   DataRow(
                       onSelectChanged: (value) {
-                        Navigator.of(context)
-                            .pushNamed(OrderDetailsScreen.routeName);
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) =>
+                                OrderDetailsScreen(data[i]["orderId"])));
                       },
                       cells: [
-                        DataCell(Text('1',
+                        DataCell(Text(data[i]["orderId"].toString(),
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
-                        DataCell(Text('Stephen',
+                        DataCell(Text(data[i]["date"].substring(0,10),
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
-                        DataCell(Text('Actor',
+                        DataCell(Text(data[i]["userName"],
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
-                        DataCell(Text('Actor',
+                        DataCell(Text((data[i]["productCount"]*data[i]["price"]).toString(),
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
                       ]),
-                  DataRow(cells: [
-                    DataCell(Text('1')),
-                    DataCell(Text('Stephen')),
-                    DataCell(Text('Actor')),
-                    DataCell(Text('Actor')),
-                  ]),
-                  DataRow(cells: [
-                    DataCell(Text('1')),
-                    DataCell(Text('Stephen')),
-                    DataCell(Text('Actor')),
-                    DataCell(Text('Actor')),
-                  ]),
-                  DataRow(
-                      onSelectChanged: (value) {
-                        print(value);
-                      },
-                      cells: [
-                        DataCell(Text('1')),
-                        DataCell(Text('Stephen')),
-                        DataCell(Text('Actor')),
-                        DataCell(Text('Actor')),
-                      ]),
-                  DataRow(
-                      onSelectChanged: (value) {
-                        print(value);
-                      },
-                      cells: [
-                        DataCell(Text('1')),
-                        DataCell(Text('Stephen')),
-                        DataCell(Text('Actor')),
-                        DataCell(Text('Actor')),
-                      ]),
-                  DataRow(
-                      onSelectChanged: (value) {
-                        print(value);
-                      },
-                      cells: [
-                        DataCell(Text('1')),
-                        DataCell(Text('Stephen')),
-                        DataCell(Text('Actor')),
-                        DataCell(Text('Actor')),
-                      ]),
+
                 ],
               ),
             ),
-            PaginationWidget("" , "" , (){}),
+            PaginationWidget(paging["previous"] , paging["next"] , onClick),
           ],
         ),
       ),

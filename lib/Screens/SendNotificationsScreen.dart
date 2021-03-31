@@ -1,8 +1,11 @@
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
+import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/AddStoreScreenState.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SendNotificationScreen extends StatefulWidget {
   static const String routeName = "/SendNotification";
@@ -13,11 +16,11 @@ class SendNotificationScreen extends StatefulWidget {
 class _SendNotificationScreenState extends State<SendNotificationScreen> {
 
   Map data = {
-    "Address" : null,
+    "header" : null,
     "Message" : null,
   };
   Map dataError = {
-    "Address" : null,
+    "header" : null,
     "Message" : null,
   };
 
@@ -29,6 +32,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("send notifications" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -59,19 +63,40 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
               children: [
                 Container(
                     width: 300,
-                    child: CustomTextField("Address", dataError["Address"], (value) { asss.onChange(value, "UserName"); })),
+                    child: CustomTextField("header", dataError["header"], (value) { asss.onChange(value, "header"); })),
                 Container(
                     width: 300,
-                    child: CustomTextField("Message", dataError["Message"], (value) { asss.onChange(value, "StoreName"); })),
+                    child: CustomTextField("Message", dataError["Message"], (value) { asss.onChange(value, "Message"); })),
                SizedBox(
                   height: 40,
                 ),
-                ButtonDesign("Send", asss.addStore),
+                ButtonDesign("Send", sendNotification),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  sendNotification()async{
+    AddStoreScreenState asss = new AddStoreScreenState(this);
+    if(asss.check()){
+      loadingAlert(context);
+      var response = await http.post(
+          Uri.parse('$serverURL/api/Notification/Add?header=${data["header"]}&body=${data["Message"]}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+      );
+      Navigator.of(context).pop();
+      if(response.statusCode < 300){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("the Notification has been sent successfully") ,backgroundColor: Colors.green,));
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("something went wrong"),backgroundColor: Colors.red,));
+      }
+      print(response.statusCode);
+      print(response.body);
+    }
   }
 }

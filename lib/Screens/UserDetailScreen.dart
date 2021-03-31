@@ -17,6 +17,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("users details" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {

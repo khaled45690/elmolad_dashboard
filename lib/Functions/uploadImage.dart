@@ -1,11 +1,9 @@
 
-import 'dart:convert';
-
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:http/http.dart' as http;
 
 
-uploadImages(image , String name , state) async {
+uploadImages(image , String name) async {
   Uri uri =
   Uri.parse("$serverURL/api/Upload/Post");
   http.MultipartRequest request = http.MultipartRequest("POST", uri);

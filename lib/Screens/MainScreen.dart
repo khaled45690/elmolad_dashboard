@@ -20,8 +20,11 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
     ColorAndSizeImportantInfo importantInfo2 = Provider.of<ColorAndSizeImportantInfo>(context , listen: false);
+    importantInfo2.getInfoFromLocal();
+    importantInfo.getInfoFromLocal();
     importantInfo.getInfo();
     importantInfo2.getInfo();
+
   }
 
   void get() async {

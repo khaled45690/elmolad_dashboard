@@ -71,6 +71,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
+          title: Text("all Main products" , style: TextStyle(color: Colors.black),),
           actions: [
             MaterialButton(
                 onPressed: () {
@@ -231,7 +232,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                   ],
                 ),
               ),
-              PaginationWidget(paging["first"], paging["next"], onClick),
+              PaginationWidget(paging["previous"], paging["next"], onClick),
             ],
           ),
         ),

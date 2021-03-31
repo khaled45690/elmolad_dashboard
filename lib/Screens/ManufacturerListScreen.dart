@@ -22,7 +22,7 @@ class _ManufacturListScreenState extends State<ManufacturListScreen> {
 
   void get() async {
     var response = await http.get(
-      Uri.parse('$serverURL/api/Brands/list'),
+      Uri.parse('$serverURL/api/BrandCpanel/list'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -41,6 +41,7 @@ class _ManufacturListScreenState extends State<ManufacturListScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
+        title: Text("all manufactures" , style: TextStyle(color: Colors.black),),
         actions: [
           MaterialButton(
               onPressed: () {
