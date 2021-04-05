@@ -10,7 +10,7 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
   // start brand important data
   // start brand important data
   // start brand important data
-  late List _brandList;
+  List _brandList = [];
 
   List get brandList => _brandList;
 
@@ -18,7 +18,7 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
     _brandList = brandListParameter;
     notifyListeners();
   }
-  late List<String> _brandName;
+  List<String> _brandName = [];
 
   List<String> get brandName => _brandName;
 

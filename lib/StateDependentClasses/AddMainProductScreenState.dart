@@ -14,7 +14,7 @@ class AddMainProductScreenState {
   AddMainProductScreenState(this.state);
 
   onSubmitFunc() async{
-    if (check()) {
+    if (check() && checkIfOfferPercentageIsDouble()) {
       loadingAlert();
       CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(this.state.context , listen: false);
       importantInfo.brandList.forEach((element) {
@@ -51,12 +51,34 @@ class AddMainProductScreenState {
     }
   }
 
+  checkIfOfferPercentageIsDouble(){
+    bool check = true;
+        try{
+         double.parse(this.state.data["productOfferPercentage"]);
+         print(double.parse(this.state.data["productOfferPercentage"]));
+        }catch(error){
+          print(error);
+          check = false;
+          this.state.setState(() {
+            this.state.dataError["productOfferPercentage"] = "make sure this field is number";
+          });
+        }
+
+    return check;
+  }
   onChange(value, variableName) {
     this.state.setState(() {
       this.state.data[variableName] = value;
       this.state.dataError[variableName] = null;
     });
   }
+
+  checkChange(value, variableName) {
+    this.state.setState(() {
+      this.state.data[variableName] = value;
+    });
+  }
+
   dropDownTextChange(value){
     this.state.setState(() {
       this.state.brandValue = value;

@@ -51,11 +51,28 @@ class AddMainProductMiddlePart extends StatelessWidget {
           Row(
             children: [
               Container(
+                width: 110,
+                margin: EdgeInsets.only(right: 30),
+                child: Text(
+                  "Offer Percentage",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ),
+              Container(
+                  width: screenSize - 200,
+                  child: CustomTextField("Offer Percentage", dataError["productOfferPercentage"], (value) {
+                    onChange(value, "productOfferPercentage");
+                  })),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
                 width: 112,
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
                   "Description",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               ),
               Container(

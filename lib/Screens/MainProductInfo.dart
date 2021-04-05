@@ -35,6 +35,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
       },
     );
     Map body = jsonDecode(response.body);
+    print(body["Data"]);
     setState(() {
       productsList = body["Data"];
       paging = body["Paging"];
@@ -179,7 +180,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                                     print("hi");
                                   },
                                 ),
-                                Text(product["categorieId"],
+                                Text(product["categoryName"],
                                     style: TextStyle(
                                       fontSize: rowFontSize,
                                     )),

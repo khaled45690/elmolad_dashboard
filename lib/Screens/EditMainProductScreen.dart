@@ -19,6 +19,7 @@ class EditMainProductScreen extends StatefulWidget {
 class _EditMainProductScreenState extends State<EditMainProductScreen> {
   List<String> brandFilter = [];
   String brandValue = "" , categoryValue = "Top";
+  Map modifiedData = {};
   Map data = {
     "minProductName" : null,
     "productPrice" : null,
@@ -36,12 +37,15 @@ class _EditMainProductScreenState extends State<EditMainProductScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    data = widget.data;
+    setState(() {
+      data = widget.data;
+
+    });
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
     setState(() {
       brandFilter = importantInfo.brandName;
-      brandValue = brandFilter[0];
-      categoryValue = data["categorieId"];
+      categoryValue = data["categoryName"];
+      brandValue = data["brandName"];
     });
   }
   @override
@@ -71,7 +75,7 @@ class _EditMainProductScreenState extends State<EditMainProductScreen> {
             EditMainProductTopPart(widget.data , empss.onChange),
             EditMainProductMiddlePart(brandFilter , brandValue  , categoryValue , importantInfo.categoryNameList , empss.dropDownTextChange , empss.searchFunction , empss.categoryListChange),
             SizedBox(height: 40,),
-            ButtonDesign("Save", () {}),
+            ButtonDesign("Save", empss.onSubmitFunc),
           ],
         ),
       ),

@@ -47,9 +47,6 @@ class AddMainProductDropDownPart extends StatelessWidget {
               ExpandedDropDown(brandValue, brandNames , dropDownTextChange ,searchFunction),
             ],
           ),
-          SizedBox(
-            height: 90,
-          ),
         ],
       ),
     );

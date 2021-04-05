@@ -10,7 +10,7 @@ class ColorAndSizeImportantInfo with ChangeNotifier, DiagnosticableTreeMixin {
   // start size important data
   // start size important data
   // start size important data
-  late List _sizeList = [];
+  List _sizeList = [];
 
   List get sizeList => _sizeList;
 
@@ -35,7 +35,7 @@ class ColorAndSizeImportantInfo with ChangeNotifier, DiagnosticableTreeMixin {
   // start color important data
   // start color important data
   // start color important data
-  late List _colorList = [];
+  List _colorList = [];
 
   List get colorList => _colorList;
 
