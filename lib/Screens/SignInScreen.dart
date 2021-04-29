@@ -1,7 +1,13 @@
+import 'dart:convert';
+
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
+import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
-import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   static const String routeName = "/SignInScreen";
@@ -10,7 +16,20 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  Map dataError={};
+  Map data = {
+    "PassWord":null,
+    "UserName":null
+  };
+  Map dataError={
+    "PassWord":null,
+    "UserName":null
+  };
+  onChange(value , valueName){
+    setState(() {
+      data[valueName] = value;
+      dataError[valueName] = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         title: Text("sign in" , style: TextStyle(color: Colors.black),),
-        actions: [
-          MaterialButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.keyboard_return_sharp)),
-        ],
       ),
-      drawer: DrawerWidget(),
       body: Center(
         child: Container(
           padding: EdgeInsets.all(10),
@@ -49,19 +60,56 @@ class _SignInScreenState extends State<SignInScreen> {
               children: [
              Container(
                     width: 300,
-                    child: CustomTextField("Email", dataError["Email"], (value) { })),
+                    child: CustomTextField("Email", dataError["UserName"], (value) => onChange(value , "UserName"))),
                 Container(
                     width: 300,
-                    child: CustomTextField("Password", dataError["Password"], (value) { } , obscureText: true,)),
+                    child: CustomTextField("Password", dataError["PassWord"], (value) => onChange(value , "PassWord"), obscureText: true,)),
                 SizedBox(
                   height: 40,
                 ),
-                ButtonDesign("Sign In", (){}),
+                ButtonDesign("Sign In", submit),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  submit()async{
+    UserData userData = Provider.of<UserData>(context , listen: false);
+    if(check()){
+      loadingAlert(context);
+      print('$serverURL/api/Account/CustomToken');
+      var response = await http.post(
+          Uri.parse('$serverURL/api/Account/CustomToken'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(data)
+      );
+      print(response.statusCode);
+      print(response.body);
+      if(response.statusCode < 300){
+        Navigator.of(context).pop();
+        userData.updateUserInfo(jsonDecode(response.body));
+      }else{
+        Navigator.of(context).pop();
+      }
+
+    }
+  }
+
+  check(){
+    bool check = true;
+    data.forEach((key, value) {
+      if(data[key] == null) {
+        setState(() {
+          dataError[key] = "this field is required";
+          check = false;
+        });
+      }
+    });
+    return check;
   }
 }

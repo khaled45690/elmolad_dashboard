@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/OrderDetailsLowerPart.dart';
 import 'package:elmolad_dashboard/Widgets/OrderDetailsUpperPart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   static const routeName = "/OrderDetails";
@@ -27,10 +29,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     get();
   }
   get()async{
+    UserData userData = Provider.of<UserData>(context , listen: false);
     var response = await http.get(
       Uri.parse("$serverURL/api/OrderCpanel/details?orderId=${widget.orderId}"),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authentication' : 'Bearer ${userData.userData["access_token"]}'
       },
     );
 

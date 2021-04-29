@@ -1,11 +1,13 @@
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/AddStoreScreenState.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SendNotificationScreen extends StatefulWidget {
   static const String routeName = "/SendNotification";
@@ -81,12 +83,14 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
 
   sendNotification()async{
     AddStoreScreenState asss = new AddStoreScreenState(this);
+    UserData userData = Provider.of<UserData>(context , listen: false);
     if(asss.check()){
       loadingAlert(context);
       var response = await http.post(
           Uri.parse('$serverURL/api/Notification/Add?header=${data["header"]}&body=${data["Message"]}'),
           headers: <String, String>{
             'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ${userData.userData["access_token"]}'
           },
       );
       Navigator.of(context).pop();

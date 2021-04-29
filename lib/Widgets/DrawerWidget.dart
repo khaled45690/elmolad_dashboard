@@ -1,3 +1,4 @@
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/AddManufacturScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
@@ -16,6 +17,7 @@ import 'package:elmolad_dashboard/Screens/UserListScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerControllersWidget.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerTabsWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override
@@ -57,6 +59,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    UserData userdata = Provider.of<UserData>(context);
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
@@ -94,10 +97,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
               ),
             ),
-            DrawerControllersWidget("Manufacturer", () {
+            userdata.userData["Isadmin"] ? DrawerControllersWidget("Manufacturer", () {
               onChange("Manufacturer");
-            }),
-            AnimatedContainer(
+            }) : Container(),
+            userdata.userData["Isadmin"] ?  AnimatedContainer(
               height: data["Manufacturer"],
               duration: Duration(milliseconds: 300),
               child: Column(
@@ -106,10 +109,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   DrawerTabsWidget("Manufacturers", ManufacturListScreen.routeName),
                 ],
               ),
-            ),
-            DrawerControllersWidget("Brand", () {
+            ) : Container(),
+            userdata.userData["Isadmin"] ? DrawerControllersWidget("Brand", () {
               onChange("Brand");
-            }),
+            }) : Container(),
             AnimatedContainer(
               height: data["Brand"],
               duration: Duration(milliseconds: 300),
@@ -120,9 +123,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
-            DrawerControllersWidget("Colors", () {
+            userdata.userData["Isadmin"] ? DrawerControllersWidget("Colors", () {
               onChange("Colors");
-            }),
+            }) : Container(),
             AnimatedContainer(
               height: data["Colors"],
               duration: Duration(milliseconds: 300),
@@ -133,9 +136,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
-            DrawerControllersWidget("Sizes", () {
+            userdata.userData["Isadmin"] ? DrawerControllersWidget("Sizes", () {
               onChange("Sizes");
-            }),
+            }) : Container(),
             AnimatedContainer(
               height: data["Sizes"],
               duration: Duration(milliseconds: 300),
@@ -147,9 +150,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ),
 
-            DrawerControllersWidget("Others", () {
+            userdata.userData["Isadmin"] ? DrawerControllersWidget("Others", () {
               onChange("Others");
-            }),
+            }) : Container(),
             AnimatedContainer(
               height: data["Others"],
               duration: Duration(milliseconds: 300),
@@ -162,6 +165,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
+            DrawerControllersWidget("Log out", () {
+              userdata.userData = {};
+            }),
             Container(
               height: 280,
               color: Colors.white,

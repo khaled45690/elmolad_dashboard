@@ -1,5 +1,7 @@
 import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/ColorPickerScreen.dart';
+import 'package:elmolad_dashboard/Screens/EditColorScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +13,16 @@ class ShowColorsScreen extends StatefulWidget {
 }
 
 class _ShowColorsScreenState extends State<ShowColorsScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ColorAndSizeImportantInfo importantInfo =
+    Provider.of<ColorAndSizeImportantInfo>(context , listen: false);
+    UserData userData = Provider.of<UserData>(context , listen: false);
+    importantInfo.getInfo(userData.userData["access_token"]);
+  }
   @override
   Widget build(BuildContext context) {
     ColorAndSizeImportantInfo importantInfo =
@@ -18,6 +30,7 @@ class _ShowColorsScreenState extends State<ShowColorsScreen> {
     Size size = MediaQuery.of(context).size;
     double headerFontSize = size.width > 600 ? 20 : 11;
     double rowFontSize = size.width > 600 ? 20 : 12;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -82,33 +95,36 @@ class _ShowColorsScreenState extends State<ShowColorsScreen> {
                   rows: [
                     for (int i = 0; i < importantInfo.colorList.length; i++)
                       DataRow(cells: [
-                        DataCell(Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              hoverColor: Colors.black.withOpacity(0.4),
-                              child: Container(
-                                  width: 40,
-                                  height: 50,
-                                  child: Icon(Icons.delete_forever_outlined)),
-                              onTap: () {
-                                print("hi");
-                              },
-                            ),
-                            Text(importantInfo.colorList[i]["id"].toString(),
-                                style: TextStyle(
-                                  fontSize: rowFontSize,
-                                )),
-                          ],
-                        )),
+                        DataCell(Text(importantInfo.colorList[i]["id"].toString(),
+                            style: TextStyle(
+                              fontSize: rowFontSize,
+                            ))),
                         DataCell(Text(importantInfo.colorList[i]["name"],
                             style: TextStyle(
                               fontSize: rowFontSize,
                             ))),
-                        DataCell(Container(
-                          width: 30,
-                          height: 40,
-                          color: Color(int.parse("0xFF${importantInfo.colorList[i]["colorCode"].substring(1)}")),
+                        DataCell(Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 30,
+                              height: 40,
+                              color: Color(int.parse("0xFF${importantInfo.colorList[i]["colorCode"].substring(1)}")),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) =>
+                                        EditColorScreen(importantInfo.colorList[i])));
+                              },
+                              hoverColor: Colors.black.withOpacity(0.4),
+                              child: Container(
+                                width: 40,
+                                height: 50,
+                                child: Icon(Icons.edit),
+                              ),
+                            ),
+                          ],
                         )),
                       ]),
                   ],

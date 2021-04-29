@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Functions/uploadImage.dart';
 import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:objectid/objectid.dart';
@@ -14,6 +15,7 @@ class AddSubProductScreenState {
 
   AddSubProductScreenState(this.state);
   onSubmit()async{
+    UserData userData = Provider.of<UserData>(this.state.context , listen: false);
     Map data = {};
     data["minProductId"] = this.state.data["minProductId"];
     data["imagesList"] = this.state.data["imagesList"];
@@ -35,11 +37,11 @@ class AddSubProductScreenState {
           print(data);
         }
       });
-
       var response = await http.post(
-        Uri.parse('$serverURL/api/Prodact/AddAdProdact'),
+        Uri.parse('$serverURL/api/Product/AddAdProduct'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ${userData.userData["access_token"]}'
         },
         body: jsonEncode(data)
       );

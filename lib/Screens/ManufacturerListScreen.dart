@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/AddManufacturScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 class ManufacturListScreen extends StatefulWidget {
   static const String routeName = "/BrandListScreen";
   @override
@@ -21,10 +23,12 @@ class _ManufacturListScreenState extends State<ManufacturListScreen> {
   }
 
   void get() async {
+    UserData userData = Provider.of<UserData>(context , listen: false);
     var response = await http.get(
       Uri.parse('$serverURL/api/BrandCpanel/list'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ${userData.userData["access_token"]}'
       },
     );
     setState(() {
@@ -80,7 +84,11 @@ class _ManufacturListScreenState extends State<ManufacturListScreen> {
                             fontSize: headerFontSize,
                             fontWeight: FontWeight.bold)),
                     InkWell(
-                      child: Icon(Icons.add_circle_rounded),
+                      hoverColor: Colors.black.withOpacity(0.4),
+                      child: Container(
+                          width: 40,
+                          height: 50,
+                          child: Icon(Icons.add_circle_rounded)),
                       onTap: () {
                         Navigator.of(context)
                             .pushNamed(AddManufacturScreen.routeName);
@@ -95,20 +103,10 @@ class _ManufacturListScreenState extends State<ManufacturListScreen> {
               DataRow(
                   cells: [
                 DataCell(
-                    Row(
-                  children: [
-                    InkWell(
-                      child: Icon(Icons.delete_forever_outlined),
-                      onTap: () {
-                        print("hi");
-                      },
-                    ),
                     Text(dataList![i]["Id"].toString(),
                         style: TextStyle(
                           fontSize: rowFontSize,
-                        )),
-                  ],
-                )),
+                        ))),
                 DataCell(Text(dataList![i]["brandName"].toString(),
                     style: TextStyle(
                       fontSize: rowFontSize,

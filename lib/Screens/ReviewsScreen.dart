@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/OrderDetailsScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ReviewsScreen extends StatefulWidget {
   static const String routeName = "/Reviews";
@@ -22,10 +24,12 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     get();
   }
   void get() async {
+    UserData userData = Provider.of<UserData>(context , listen: false);
     var response = await http.get(
       Uri.parse('$serverURL/api/Review/AllReview'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ${userData.userData["access_token"]}'
       },
     );
     print(response.body);

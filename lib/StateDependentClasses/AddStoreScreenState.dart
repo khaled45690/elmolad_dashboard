@@ -3,16 +3,19 @@ import 'dart:convert';
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Functions/uploadImage.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:objectid/objectid.dart';
+import 'package:provider/provider.dart';
 
 class AddStoreScreenState {
   final state;
 
   AddStoreScreenState(this.state);
   addStore() async{
+    UserData userData = Provider.of<UserData>(this.state.context , listen: false);
     if (check() && checkPassword()) {
       if(this.state.data["Email"].contains(" ")){
         this.state.setState(() {
@@ -24,12 +27,14 @@ class AddStoreScreenState {
             Uri.parse('$serverURL/api/Store/Add'),
             headers: <String, String>{
               'Content-Type': 'application/json',
+              'Authorization' : 'Bearer ${userData.userData["access_token"]}'
             },
             body: jsonEncode(this.state.data)
         );
+        print(response.body);
         Navigator.of(this.state.context).pop();
         if(response.statusCode < 300){
-          ScaffoldMessenger.of(this.state.context).showSnackBar(SnackBar(content: Text("the Size has been added successfully") ,backgroundColor: Colors.green,));
+          ScaffoldMessenger.of(this.state.context).showSnackBar(SnackBar(content: Text("the Store has been added successfully") ,backgroundColor: Colors.green,));
         }else{
           ScaffoldMessenger.of(this.state.context).showSnackBar(SnackBar(content: Text("something went wrong"),backgroundColor: Colors.red,));
         }

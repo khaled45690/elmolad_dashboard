@@ -1,13 +1,17 @@
+
 import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/EditSubProductScreenState.dart';
 import 'package:elmolad_dashboard/Widgets/AddSubProductTopPart.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
+import 'package:elmolad_dashboard/Widgets/PhotoViwerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditSubProductScreen extends StatefulWidget {
   static const String routeName = "/EditSubProduct";
+  final Map data;
+  EditSubProductScreen(this.data);
   @override
   _EditSubProductScreenState createState() => _EditSubProductScreenState();
 }
@@ -19,22 +23,29 @@ class _EditSubProductScreenState extends State<EditSubProductScreen> {
     "sizeValue": "",
     "imagesList": [],
   };
-
   bool isDone = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ColorAndSizeImportantInfo importantInfo2 =
-    Provider.of<ColorAndSizeImportantInfo>(context, listen: false);
+        Provider.of<ColorAndSizeImportantInfo>(context, listen: false);
+    print(importantInfo2.colorList);
+    importantInfo2.colorList.forEach((element) {
+      if (element["colorCode"] == widget.data["color"]) {
+        setState(() {
+          data["colorValue"] = element["name"];
+          data["sizeValue"] = widget.data["size"];
+          data["ImgName"] = widget.data["ImgName"];
+          data["productId"] = widget.data["id"];
+        });
+      }
+    });
     setState(() {
-      data["colorValue"] = importantInfo2.colorName[0];
-      data["sizeValue"] = importantInfo2.sizeName[0];
       colorListFilter = importantInfo2.colorName;
       sizeListFilter = importantInfo2.sizeName;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +56,10 @@ class _EditSubProductScreenState extends State<EditSubProductScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        title: Text("Edit Sub products" , style: TextStyle(color: Colors.black),),
+        title: Text(
+          "Edit Sub products",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           MaterialButton(
               onPressed: () {
@@ -68,25 +82,31 @@ class _EditSubProductScreenState extends State<EditSubProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AddSubProductTopPart( data["colorValue"],
-                data["sizeValue"],
-                colorListFilter,
-                sizeListFilter,
-                espss.colorChange,
-                espss.sizeChange,
-                espss.colorSearchFunction,
-                espss.sizeSearchFunction),
+                AddSubProductTopPart(
+                    data["colorValue"],
+                    data["sizeValue"],
+                    colorListFilter,
+                    sizeListFilter,
+                    espss.colorChange,
+                    espss.sizeChange,
+                    espss.colorSearchFunction,
+                    espss.sizeSearchFunction),
                 SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                ButtonDesign("Add images", (){}),
+                PhotoViwerWidget(data["ImgName"] , espss.deleteProduct),
                 SizedBox(
                   height: 30,
                 ),
-                ButtonDesign("Save", () {}),
+                // ${widget.data["ImgName"]}
+                ButtonDesign("Add images", espss.loadAssets),
+                SizedBox(
+                  height: 30,
+                ),
+                ButtonDesign("Save", espss.onSubmit),
                 SizedBox(
                   height: 30,
                 ),

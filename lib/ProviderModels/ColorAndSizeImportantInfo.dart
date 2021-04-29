@@ -55,34 +55,43 @@ class ColorAndSizeImportantInfo with ChangeNotifier, DiagnosticableTreeMixin {
   // end color important data
   // end color important data
   // end color important data
-  getInfo() async {
-    final SharedPreferences prefs = await _prefs;
+  getInfo(accessToken) async {
+   // final SharedPreferences prefs = await _prefs;
     List<String> arr = [];
     var response = await http.get(
       Uri.parse('$serverURL/api/Size/SizeList'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        "Authorization" : "Bearer $accessToken"
       },
     );
-    sizeList = jsonDecode(response.body);
-    _sizeList.forEach((element) {
-      arr.add(element["name"]);
-    });
-    sizeName = arr;
-    prefs.setString("sizeName", jsonEncode(arr));
+    if(response.statusCode < 300){
+      sizeList = jsonDecode(response.body);
+      _sizeList.forEach((element) {
+        arr.add(element["name"]);
+      });
+      sizeName = arr;
+    }
+
+    // prefs.setString("sizeName", jsonEncode(arr));
     List<String> arr2 = [];
+    print("Authorization : Bearer $accessToken");
     var response2 = await http.get(
       Uri.parse('$serverURL/api/Color/ColorList'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        "Authorization" : "Bearer $accessToken"
       },
     );
-    colorList = jsonDecode(response2.body);
-    _colorList.forEach((element) {
-      arr2.add(element["name"]);
-    });
-    colorName = arr2;
-    prefs.setString("colorName", jsonEncode(arr2));
+    if(response2.statusCode < 300){
+      colorList = jsonDecode(response2.body);
+      _colorList.forEach((element) {
+        arr2.add(element["name"]);
+      });
+      colorName = arr2;
+    }
+
+    // prefs.setString("colorName", jsonEncode(arr2));
 
   }
 

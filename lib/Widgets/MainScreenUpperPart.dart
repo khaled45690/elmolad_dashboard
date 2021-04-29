@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 class MainScreenUpperPart extends StatelessWidget {
+  final Map info;
+  MainScreenUpperPart(this.info);
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.width > 700 ? 300 : 460;
-    double width = size.width > 700 ? 650 : 350;
-    int numberOfColumn = size.width > 700 ? 2 : 1;
-    int numberOfRows = size.width > 700 ? 5 : 9;
+    // Size size = MediaQuery.of(context).size;
+    double height = 250;
+    double width =  350;
+    // int numberOfColumn = size.width > 700 ? 2 : 1;
+    // int numberOfRows = size.width > 700 ? 5 : 9;
     return Container(
         margin: EdgeInsets.only(top: 30),
         height: height,
@@ -27,27 +30,25 @@ class MainScreenUpperPart extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (int k = 0; k < numberOfRows; k++)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  for (int j = 0; j < numberOfColumn; j++)
                     Container(
                       margin: EdgeInsets.only(top: 20, right: 30),
                       child: Row(
                         children: [
                           Container(
                             child: Text(
-                              "data : ",
+                              "Number OF Stores : ",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w700),
                             ),
                           ),
                           Container(
                             child: Text(
-                              "data variable",
+                              info["NumOFStores"] == null ? "" : info["NumOFStores"].toString(),
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.w500),
                             ),
@@ -56,7 +57,86 @@ class MainScreenUpperPart extends StatelessWidget {
                       ),
                     ),
                 ],
-              )
+              ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20, right: 30),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          "Number OF Orders : ",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          info["NumOfOrders"] == null ? "" : info["NumOfOrders"].toString(),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20, right: 30),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          "Number OF Products : ",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          info["NumOfProducts"] == null ? "" : info["NumOfProducts"].toString(),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20, right: 30),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          "Number OF Users : ",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          info["NumOfUsers"] == null ? "" : info["NumOfUsers"].toString(),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ));
   }

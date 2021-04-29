@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/OrderDetailsScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = "/OrdersScreen";
@@ -24,10 +26,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
     get();
   }
   get()async{
+    UserData userData = Provider.of<UserData>(context , listen: false);
     var response = await http.get(
         Uri.parse('$serverURL/api/OrderCpanel/List?pageNo=1&pageSize=5'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ${userData.userData["access_token"]}'
         },
     );
     print(response.body);
@@ -38,11 +42,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
     });
   }
   onClick(url) async {
+    UserData userData = Provider.of<UserData>(context , listen: false);
     loadingAlert(context);
     var response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ${userData.userData["access_token"]}'
       },
     );
     Navigator.of(context).pop();

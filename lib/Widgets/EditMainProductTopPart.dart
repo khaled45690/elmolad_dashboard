@@ -39,6 +39,23 @@ class EditMainProductTopPart extends StatelessWidget {
                   width: 110,
                   margin: EdgeInsets.only(right: 30),
                   child: Text(
+                    "Offer Percentage",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Container(
+                    width: screenSize - 200,
+                    child: CustomTextField(data["productOfferPercentage"].toString(), null, (value) {
+                      onchange(value, "productOfferPercentage");
+                    })),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 110,
+                  margin: EdgeInsets.only(right: 30),
+                  child: Text(
                     "price",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                   ),

@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/AddStoreScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class StoresListScreen extends StatefulWidget {
   static const String routeName = "/StoresListScreen";
@@ -58,6 +61,7 @@ class _StoresListScreenState extends State<StoresListScreen> {
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.keyboard_return_sharp)),
+
         ],
       ),
       drawer: DrawerWidget(),
@@ -96,10 +100,15 @@ class _StoresListScreenState extends State<StoresListScreen> {
                                 fontSize: headerFontSize,
                                 fontWeight: FontWeight.bold)),
                         InkWell(
-                          child: Icon(Icons.add_circle_rounded),
+                          hoverColor: Colors.black.withOpacity(0.4),
+                          child: Container(
+                              width: 40,
+                              height: 60,
+                              child: Icon(Icons.add_circle_rounded)),
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(AddStoreScreen.routeName);
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                    AddStoreScreen()));
                           },
                         ),
                       ],
@@ -112,10 +121,12 @@ class _StoresListScreenState extends State<StoresListScreen> {
                     DataCell(Row(
                       children: [
                         InkWell(
-                          child: Icon(Icons.delete_forever_outlined),
-                          onTap: () {
-                            print("hi");
-                          },
+                          hoverColor: Colors.black.withOpacity(0.4),
+                          child: Container(
+                              width: 40,
+                              height: 50,
+                              child: Icon(Icons.delete_forever_outlined)),
+                          onTap: () => deleteStore(data[i]),
                         ),
                         Text(data[i]["id"].toString(),
                             style: TextStyle(
@@ -141,5 +152,35 @@ class _StoresListScreenState extends State<StoresListScreen> {
         ),
       ),
     );
+  }
+  deleteStore(dataParameter)async{
+    UserData userData = Provider.of<UserData>(context , listen: false);
+    List filter = [];
+    loadingAlert(context);
+    var response = await http.post(
+      Uri.parse("$serverURL/api/Store/Delete?id=${dataParameter["id"]}"),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ${userData.userData["access_token"]}'
+
+      },
+    );
+    Navigator.of(context).pop();
+    if(response.statusCode < 300){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("the store has been deleted successfully") , backgroundColor: Colors.green,));
+      data.forEach((element) {
+        if(element["id"] == dataParameter["id"]){
+
+        }else{
+          filter.add(element);
+        }
+      });
+      print(filter);
+      setState(() {
+        data = filter;
+      });
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("something went wrong"),backgroundColor: Colors.red,));
+    }
   }
 }

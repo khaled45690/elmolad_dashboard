@@ -1,5 +1,7 @@
 import 'package:elmolad_dashboard/ProviderModels/ColorAndSizeImportantInfo.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/AddSizeScreen.dart';
+import 'package:elmolad_dashboard/Screens/EditSizeScreen.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,15 @@ class ShowSizesScreen extends StatefulWidget {
 
 class _ShowSizesScreenState extends State<ShowSizesScreen> {
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ColorAndSizeImportantInfo importantInfo =
+    Provider.of<ColorAndSizeImportantInfo>(context , listen: false);
+    UserData userData = Provider.of<UserData>(context , listen: false);
+    importantInfo.getInfo(userData.userData["access_token"]);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -78,30 +89,32 @@ class _ShowSizesScreenState extends State<ShowSizesScreen> {
                   DataRow(
                       cells: [
                         DataCell(
-
-                            Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              hoverColor: Colors.black.withOpacity(0.4),
-                              child: Container(
-                                  width: 40,
-                                  height: 50,
-                                  child: Icon(Icons.delete_forever_outlined)),
-                              onTap: () {
-                                print("hi");
-                              },
-                            ),
                             Text(importantInfo.sizeList[i]["id"].toString(),
                                 style: TextStyle(
                                   fontSize: rowFontSize,
+                                ))),
+                        DataCell(Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(importantInfo.sizeList[i]["name"],
+                                style: TextStyle(
+                                  fontSize: rowFontSize,
                                 )),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) =>
+                                        EditSizeScreen(importantInfo.sizeList[i])));
+                              },
+                              hoverColor: Colors.black.withOpacity(0.4),
+                              child: Container(
+                                width: 40,
+                                height: 50,
+                                child: Icon(Icons.edit),
+                              ),
+                            ),
                           ],
                         )),
-                        DataCell(Text(importantInfo.sizeList[i]["name"],
-                            style: TextStyle(
-                              fontSize: rowFontSize,
-                            ))),
                       ]),
                 ],
               ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin {
@@ -48,38 +49,48 @@ class CategoryAndBrandImportantInfo with ChangeNotifier, DiagnosticableTreeMixin
   // end category important data
   // end category important data
   // end category important data
-  getInfo() async {
-    final SharedPreferences prefs = await _prefs;
+  getInfo(accessToken) async {
+    // final SharedPreferences prefs = await _prefs;
     List<String> arr = [];
     var response = await http.get(
       Uri.parse('$serverURL/api/Brands/list'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        "Authorization" : "Bearer $accessToken"
       },
     );
-    brandList = jsonDecode(response.body);
-    _brandList.forEach((element) {
-      arr.add(element["brandName"]);
-    });
-    brandName = arr;
-    prefs.setString("brandName", jsonEncode(arr));
+    if(response.statusCode < 300){
+      brandList = jsonDecode(response.body);
+      _brandList.forEach((element) {
+        arr.add(element["brandName"]);
+      });
+      brandName = arr;
+    }
+    // prefs.setString("brandName", jsonEncode(arr));
     Map responseBody = {};
     var response2 = await http.get(
       Uri.parse('$serverURL/api/Product/ListCategoryId?MainCategoryId=1'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        "Authorization" : "Bearer $accessToken" ,
       },
     );
+if(response2.statusCode < 300){
+  responseBody["1"] = jsonDecode(response2.body);
+}
 
-    responseBody["1"] = jsonDecode(response2.body);
     var response3 = await http.get(
       Uri.parse('$serverURL/api/Product/ListCategoryId?MainCategoryId=2'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        "Authorization" : "Bearer $accessToken"
       },
     );
-    responseBody["2"] = jsonDecode(response3.body);
-    categoryMap = responseBody;
+    if(response3.statusCode < 300){
+      responseBody["2"] = jsonDecode(response3.body);
+      categoryMap = responseBody;
+    }
+
 
   }
 

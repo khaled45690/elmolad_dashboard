@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Screens/AddMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/EditMainProductScreen.dart';
 import 'package:elmolad_dashboard/Screens/SubProductInfo.dart';
@@ -9,6 +10,7 @@ import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/PaginationWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class MainProductInfo extends StatefulWidget {
   static const String routeName = "/MainProductInfo";
@@ -28,25 +30,32 @@ class _MainProductInfoState extends State<MainProductInfo> {
   }
 
   get() async {
+    UserData userData =
+    Provider.of<UserData>(context, listen: false);
     var response = await http.get(
       Uri.parse('$serverURL/api/ProductCpanel/List?pageNo=1&pageSize=5'),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${userData.userData["access_token"]}'
       },
     );
+    print(response.body);
     Map body = jsonDecode(response.body);
-    print(body["Data"]);
+    // print(body["Data"]);
     setState(() {
       productsList = body["Data"];
+      print(productsList[0]);
       paging = body["Paging"];
     });
   }
     onClick(url) async {
+      UserData userData = Provider.of<UserData>(context , listen: false);
       loadingAlert(context);
       var response = await http.get(
         Uri.parse(url),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ${userData.userData["access_token"]}'
         },
       );
       Navigator.of(context).pop();
@@ -58,6 +67,30 @@ class _MainProductInfoState extends State<MainProductInfo> {
 
     }
 
+    deleteProduct(product)async{
+      List filter = [];
+      UserData userData = Provider.of<UserData>(context , listen: false);
+      http.Response response =  await http.post(
+        Uri.parse("$serverURL/api/Product/DeleteMainProduct?id=${product["minProduct_Id"]}"),
+        headers: <String, String>{
+          'Authorization' : 'Bearer ${userData.userData["access_token"]}'
+        },
+      );
+      print(response.body);
+      print(response.statusCode);
+      if(response.statusCode < 300){
+        productsList.forEach((element) {
+          if(element["minProduct_Id"] == product["minProduct_Id"]){
+
+          }else{
+            filter.add(element);
+          }
+        });
+        setState(() {
+          productsList = filter;
+        });
+      }
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -67,6 +100,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
       double headerFontSize = size.width > 600 ? 20 : 8;
       double rowFontSize = size.width > 600 ? 20 : 9;
       double productNameSize = size.width > 600 ? 130 : 50;
+
       return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -163,8 +197,9 @@ class _MainProductInfoState extends State<MainProductInfo> {
                     for(var product in productsList)
                       DataRow(
                           onSelectChanged: (value) {
-                            Navigator.of(context)
-                                .pushNamed(SubProductInfo.routeName);
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                    SubProductInfo(product["minProduct_Id"])));
                           },
                           cells: [
                             DataCell(Row(
@@ -176,9 +211,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                                       height: 50,
                                       child: Icon(
                                           Icons.delete_forever_outlined)),
-                                  onTap: () {
-                                    print("hi");
-                                  },
+                                  onTap: () => deleteProduct(product),
                                 ),
                                 Text(product["categoryName"],
                                     style: TextStyle(
@@ -189,7 +222,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                             DataCell(Center(
                               child: Container(
                                 width: productNameSize,
-                                child: Text(product["productName"],
+                                child: Text(product["productName"].toString(),
                                     style: TextStyle(
                                       fontSize: rowFontSize,
                                     )),
@@ -210,7 +243,7 @@ class _MainProductInfoState extends State<MainProductInfo> {
                             DataCell(Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Actor',
+                                Text(product["brandName"].toString(),
                                     style: TextStyle(
                                       fontSize: rowFontSize,
                                     )),

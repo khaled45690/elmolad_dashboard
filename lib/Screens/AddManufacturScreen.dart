@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
 import 'package:elmolad_dashboard/Functions/uploadImage.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
@@ -10,6 +11,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:objectid/objectid.dart';
+import 'package:provider/provider.dart';
 
 class AddManufacturScreen extends StatefulWidget {
   static const routeName = "/AddRoom";
@@ -95,12 +97,14 @@ class _AddManufacturScreenState extends State<AddManufacturScreen> {
 
         });
       }else{
+        UserData userData = Provider.of<UserData>(context , listen: false);
         loadingAlert(context);
         print(Uri.parse("$serverURL/api/Brand/Add?imgName=${data["imgName"]}&brandName=${data["brandName"]}"));
         var response = await http.post(
           Uri.parse("$serverURL/api/Brand/Add?imgName=${data["imgName"]}&brandName=${data["brandName"]}"),
           headers: <String, String>{
             'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ${userData.userData["access_token"]}'
           },
         );
         Navigator.of(context).pop();
@@ -118,6 +122,7 @@ class _AddManufacturScreenState extends State<AddManufacturScreen> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
+      allowCompression: true,
       allowedExtensions: ['jpg', 'png'],
     );
     if (result != null) {

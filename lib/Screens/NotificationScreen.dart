@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   static const String routeName = "/Notification";
@@ -21,10 +23,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   get()async{
+    UserData userData = Provider.of<UserData>(context , listen: false);
     var response = await http.get(
         Uri.parse('$serverURL/api/Notification/AllNotificationList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ${userData.userData["access_token"]}'
         },
     );
 

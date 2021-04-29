@@ -1,10 +1,12 @@
 import 'package:elmolad_dashboard/Alerts/loadingAlert.dart';
 import 'package:elmolad_dashboard/Constant/Url.dart';
+import 'package:elmolad_dashboard/ProviderModels/UserData.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/CustomTextField.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class AddSizeScreen extends StatefulWidget {
   static const routeName = "/AddSize";
@@ -58,7 +60,7 @@ class _AddSizeScreenState extends State<AddSizeScreen> {
           children: [
             Container(
                 width: 300,
-                child: CustomTextField("Size name", dataError["sizeName"], colorChange)),
+                child: CustomTextField("Size name", dataError["sizeName"], sizeChange)),
             SizedBox(
               height: 40,
             ),
@@ -80,12 +82,14 @@ class _AddSizeScreenState extends State<AddSizeScreen> {
           dataError["sizeName"] = "make sure there is no space in the name";
         });
       }else{
+        UserData userData = Provider.of<UserData>(context , listen: false);
         loadingAlert(context);
         print(Uri.parse("$serverURL/api/Color/Add?colorName=${data["sizeName"]}"));
         var response = await http.get(
           Uri.parse("$serverURL/api/Size/Add?sizeName=${data["sizeName"]}"),
           headers: <String, String>{
             'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ${userData.userData["access_token"]}'
           },
         );
         Navigator.of(context).pop();
@@ -100,7 +104,7 @@ class _AddSizeScreenState extends State<AddSizeScreen> {
     }
   }
 
-  colorChange(sizeValue) {
+  sizeChange(sizeValue) {
     setState(() {
       data["sizeName"] = sizeValue;
       dataError["sizeName"] = null;

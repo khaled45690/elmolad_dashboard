@@ -26,8 +26,8 @@ class AddMainProductMiddlePart extends StatelessWidget {
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("Product Name", dataError["minProductName"], (value) {
-                    onChange(value, "minProductName");
+                  child: CustomTextField("Product Name", dataError["productName"], (value) {
+                    onChange(value, "productName");
                   })),
             ],
           ),
@@ -43,8 +43,8 @@ class AddMainProductMiddlePart extends StatelessWidget {
               ),
               Container(
                   width: screenSize - 200,
-                  child: CustomTextField("Price", dataError["productPrice"], (value) {
-                    onChange(value, "productPrice");
+                  child: CustomTextField("Price", dataError["Price"], (value) {
+                    onChange(value, "Price");
                   })),
             ],
           ),

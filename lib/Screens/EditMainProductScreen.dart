@@ -1,5 +1,7 @@
 import 'package:elmolad_dashboard/ProviderModels/CategoryAndBrandImportantInfo.dart';
 import 'package:elmolad_dashboard/StateDependentClasses/EditMainProductScreenState.dart';
+import 'package:elmolad_dashboard/Widgets/AddMainProductBestSellerWidget.dart';
+import 'package:elmolad_dashboard/Widgets/AddMainProductIsWidget.dart';
 import 'package:elmolad_dashboard/Widgets/ButtonDesign.dart';
 import 'package:elmolad_dashboard/Widgets/DrawerWidget.dart';
 import 'package:elmolad_dashboard/Widgets/EditMainProductMiddlePart.dart';
@@ -43,14 +45,24 @@ class _EditMainProductScreenState extends State<EditMainProductScreen> {
     });
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context , listen: false);
     setState(() {
+      modifiedData["isAddRecently"] = data["isAddRecently"];
+      modifiedData["isDiscount"] = data["isDiscount"];
+      modifiedData["isFeatured"] = data["isFeatured"];
+      modifiedData["storeid"] = 1;
       brandFilter = importantInfo.brandName;
       categoryValue = data["categoryName"];
       brandValue = data["brandName"];
+      importantInfo.categoryMap.forEach((key, value) {
+        value.forEach((element) {
+          if(widget.data["categorieId"] == element["id"]){
+            modifiedData["Gender"] = key;
+          }
+        });
+      });
     });
   }
   @override
   Widget build(BuildContext context) {
-  print(widget.data);
     EditMainProductScreenState empss = new EditMainProductScreenState(this);
     CategoryAndBrandImportantInfo importantInfo = Provider.of<CategoryAndBrandImportantInfo>(context);
     return Scaffold(
@@ -74,6 +86,8 @@ class _EditMainProductScreenState extends State<EditMainProductScreen> {
           children: [
             EditMainProductTopPart(widget.data , empss.onChange),
             EditMainProductMiddlePart(brandFilter , brandValue  , categoryValue , importantInfo.categoryNameList , empss.dropDownTextChange , empss.searchFunction , empss.categoryListChange),
+            AddMainProductIsWidget(modifiedData , empss.onChange),
+            AddMainProductBestSellerWidget(empss.loadAssets , dataError),
             SizedBox(height: 40,),
             ButtonDesign("Save", empss.onSubmitFunc),
           ],
